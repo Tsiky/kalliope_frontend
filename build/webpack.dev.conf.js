@@ -36,7 +36,10 @@ module.exports = merge(baseWebpackConfig, {
       // jquery
       $: 'jquery',
       jQuery: 'jquery',
-      'window.jQuery': 'jquery'
+      'window.jQuery': 'jquery',
+      semantic: 'semantic-ui-css',
+      Semantic: 'semantic-ui-css',
+      'semantic-ui': 'semantic-ui-css'
     })
   ]
 })
