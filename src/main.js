@@ -4,7 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import '../node_modules/semantic-ui-css/semantic.min.css'
-// import semantic from 'semantic'
+import '../node_modules/semantic-ui-css/semantic.min.js'
 
 Vue.config.productionTip = false
 
