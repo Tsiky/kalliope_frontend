@@ -14,7 +14,6 @@
       }
     },
     mounted: function () {
-      console.log('test')
       $('.ui.modal').modal('show')
     }
   }

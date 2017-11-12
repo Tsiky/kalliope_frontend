@@ -4,6 +4,7 @@ import HomeView from '@/components/HomeView'
 import TriggersView from '@/components/TriggersView'
 import RulesView from '@/components/RulesView'
 import ChannelsView from '@/components/ChannelsView'
+import ActionsView from '@/components/ActionsView'
 
 Vue.use(Router)
 
@@ -28,6 +29,11 @@ export default new Router({
       path: '/channels',
       name: 'ChannelsView',
       component: ChannelsView
+    },
+    {
+      path: '/actions',
+      name: 'ActionsView',
+      component: ActionsView
     }
   ],
   linkExactActiveClass: 'active'

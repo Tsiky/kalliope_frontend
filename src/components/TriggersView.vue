@@ -7,7 +7,7 @@
       <tr><th>Sensor</th>
         <th>Operator</th>
         <th>Value</th>
-        <th>Actions</th>
+        <th></th>
       </tr></thead>
       <tbody>
       <tr v-for="(value, key) in triggers">
@@ -15,7 +15,10 @@
         <td>{{ value.operator }}</td>
         <td>{{ value.value}}</td>
         <td>
-          <button v-on:click="removeTrigger(key)" class="ui icon red button">
+          <button class="ui icon button" title="Edit">
+            <i class="setting icon"></i>
+          </button>
+          <button v-on:click="removeTrigger(key)" class="ui icon button" title="Delete">
             <i class="trash icon"></i>
           </button>
         </td>
