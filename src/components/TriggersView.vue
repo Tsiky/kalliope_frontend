@@ -58,21 +58,20 @@
     name: 'TriggersView',
     data () {
       return {
-        sensors: ['Temperature 1', 'Temperature 2', 'Light 1'],
-        operators: ['>', '<'],
-        triggers: [{
-          sensor: 'Temperature 1',
-          operator: '>',
-          value: 10
-        },
-        {
-          sensor: 'Light 1',
-          operator: '<',
-          value: 20
+        'sensors': ['Temperature 1', 'Temperature 2', 'Light 1'],
+        'operators': ['>', '<'],
+        'triggers': [{
+          'sensor': 'Temperature 1',
+          'operator': '>',
+          'value': 10
+        }, {
+          'sensor': 'Light 1',
+          'operator': '<',
+          'value': 20
         }],
-        newSensor: '',
-        newOperator: '',
-        newValue: ''
+        'newSensor': '',
+        'newOperator': '',
+        'newValue': ''
       }
     },
     methods: {
