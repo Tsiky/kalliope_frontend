@@ -1,27 +1,26 @@
 <template>
   <div id="app">
 
-    <div class="ui visible left vertical inverted sidebar thin labeled menu">
-      <router-link to="/">
-        <a class="item">
-          <i class="home icon"></i>
+    <div class="ui inverted segment">
+      <div class="ui inverted secondary pointing menu">
+        <router-link class="item" to="/">
           Home
-        </a>
-      </router-link>
-      <a class="item">
-        <i class="comments icon"></i>
-        Channels
-      </a>
-      <router-link to="/triggers">
-        <a class="item">
-          <i class="configure icon"></i>
+        </router-link>
+        <router-link class="item" to="/channels">
+          Channels
+        </router-link>
+        <router-link class="item" to="/triggers">
           Triggers
-        </a>
-      </router-link>
+        </router-link>
+        <router-link class="item" to="/rules">
+          Rules
+        </router-link>
+      </div>
     </div>
-    <div class="pusher">
-      <!-- Site content !-->
-      <router-view/>
+
+    <!-- Site content !-->
+    <router-view/>
+
     </div>
   </div>
 </template>
