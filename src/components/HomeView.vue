@@ -5,16 +5,13 @@
 </template>
 
 <script>
-  import $ from 'jquery'
+//  import $ from 'jquery'
   export default {
     name: 'HomeView',
     data () {
       return {
         msg: 'Welcome to your Kalliope dashboard'
       }
-    },
-    mounted: function () {
-      $('.ui.modal').modal('show')
     }
   }
 </script>

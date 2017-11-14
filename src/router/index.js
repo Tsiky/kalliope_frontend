@@ -5,13 +5,16 @@ import TriggersView from '@/components/TriggersView'
 import RulesView from '@/components/RulesView'
 import ChannelsView from '@/components/ChannelsView'
 import ActionsView from '@/components/ActionsView'
+import ActionsCreateView from '@/components/ActionsCreateView'
+import ActionsListView from '@/components/ActionsListView'
+import ErrorRouteView from '@/components/ErrorRouteView'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
-      path: '/',
+      path: '/home',
       name: 'HomeView',
       component: HomeView
     },
@@ -33,8 +36,27 @@ export default new Router({
     {
       path: '/actions',
       name: 'ActionsView',
-      component: ActionsView
+      component: ActionsView,
+      children: [{
+        path: '',
+        name: 'ActionsListView',
+        component: ActionsListView
+      }, {
+        path: 'create',
+        name: 'ActionsCreateView',
+        component: ActionsCreateView
+      }]
+    },
+    {
+      path: '/404',
+      name: 'ErrorRouteView',
+      component: ErrorRouteView
+    },
+    {
+      path: '*',
+      redirect: '/404'
     }
   ],
-  linkExactActiveClass: 'active'
+  linkExactActiveClass: 'active',
+  linkActiveClass: 'active'
 })

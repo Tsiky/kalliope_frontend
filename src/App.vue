@@ -6,7 +6,7 @@
         <div class="header item">
           Kalliope
         </div>
-        <router-link class="item" to="/">
+        <router-link class="item" to="/home">
           Home
         </router-link>
         <router-link class="item" to="/actions">
@@ -27,7 +27,6 @@
     <!-- Site content !-->
     <router-view/>
 
-    </div>
   </div>
 </template>
 
