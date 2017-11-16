@@ -4,12 +4,14 @@
   import createPersistedState from 'vuex-persistedstate'
 //  import * as Cookies from 'js-cookie'
   import actions from './modules/actions'
+  import liveMode from './modules/liveMode'
 
   Vue.use(Vuex)
   export default new Vuex.Store({
     strict: true,
     modules: {
-      actions
+      actions,
+      liveMode
     },
     plugins: [
       // Save state in cookie

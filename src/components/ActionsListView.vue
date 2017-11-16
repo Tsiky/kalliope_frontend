@@ -71,13 +71,15 @@
       return {
         'actionToDeleteLabel': '',
         'actionToDeleteIndex': null,
-        'liveMode': false,
         'liveModeLoading': false
       }
     },
     computed: {
       actions: function () {
         return Store.getters['actions/getActions']
+      },
+      liveMode: function () {
+        return Store.getters['liveMode/getLiveMode']
       }
     },
     methods: {
@@ -108,7 +110,7 @@
         }
         this.$http.put('/api/myapp/ctl/live', data).then(response => {
           console.log(response.body)
-          this.liveMode = !this.liveMode
+          Store.commit('liveMode/setLiveMode', !this.liveMode)
           this.liveModeLoading = false
         }, response => {
           // error callback
