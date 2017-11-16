@@ -10,7 +10,10 @@
             {{ value.type }} : {{ value.name }}
           </div>
         </div>
-        <div class="ui two bottom attached fluid buttons">
+        <div class="ui three bottom attached fluid buttons">
+          <div v-on:click="testAction(key)" class="ui icon button">
+            <i class="play icon"></i>
+          </div>
           <div class="ui icon button">
             <i class="setting icon"></i>
           </div>
@@ -63,14 +66,6 @@
         'actionToDeleteIndex': null
       }
     },
-    mounted: function () {
-//      this.$http.get('/api/get/workflows').then(response => {
-//        console.log(response.body)
-//      }, response => {
-//        // error callback
-//        console.log(response.body)
-//      })
-    },
     computed: {
       actions: function () {
         return Store.getters['actions/getActions']
@@ -87,6 +82,14 @@
           Store.commit('actions/removeAction', this.actionToDeleteIndex)
         }
         this.actionToDeleteIndex = null
+      },
+      testAction: function (index) {
+        this.$http.post('/api/myapp/action', { 'name': this.actions[index].name }).then(response => {
+          console.log(response.body)
+        }, response => {
+          // error callback
+          console.log(response.body)
+        })
       }
     }
   }
