@@ -15,6 +15,7 @@ export default new Router({
   routes: [
     {
       path: '/home',
+      redirect: '',
       name: 'HomeView',
       component: HomeView
     },

@@ -31,17 +31,19 @@
         Back
       </button>
     </router-link>
-    <router-link to="/actions/">
-      <button class="ui primary labeled icon button">
+    <!--<router-link to="/actions/">-->
+      <button v-on:click="addAction()" class="ui primary labeled icon button">
         <i class="checkmark icon"></i>
         Create
       </button>
-    </router-link>
+    <!--</router-link>-->
   </div>
 </template>
 
 <script>
   import $ from 'jquery'
+  import Store from '../store/StoreVuex.vue'
+  import Router from '../router/index'
   export default {
     name: 'ActionsCreateView',
     data () {
@@ -68,6 +70,16 @@
       typeKey: function () {
         // Reset name select
         this.nameKey = 0
+      }
+    },
+    methods: {
+      addAction: function () {
+        Store.commit('actions/addAction', {
+          'label': this.labelValue,
+          'type': this.types[this.typeKey],
+          'name': this.names[this.typeKey][this.nameKey]
+        })
+        Router.push({ path: '/actions' })
       }
     }
   }

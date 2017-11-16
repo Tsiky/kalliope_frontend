@@ -22,7 +22,6 @@
     </div>
 
 
-
     <router-link to="/actions/create">
       <button class="ui primary labeled icon button">
         <i class="add icon"></i>
@@ -55,27 +54,11 @@
 
 <script>
   import $ from 'jquery'
+  import Store from '../store/StoreVuex.vue'
   export default {
     name: 'ActionsListView',
     data () {
       return {
-        'actions': [{
-          'label': 'Blue screen',
-          'type': 'color',
-          'name': 'color'
-        }, {
-          'label': 'Red screen',
-          'type': 'color',
-          'name': 'color'
-        }, {
-          'label': 'First quizz',
-          'type': 'quizz',
-          'name': 'question'
-        }, {
-          'label': 'Second quizz',
-          'type': 'quizz',
-          'name': 'answer'
-        }],
         'actionToDeleteLabel': '',
         'actionToDeleteIndex': null
       }
@@ -88,6 +71,11 @@
 //        console.log(response.body)
 //      })
     },
+    computed: {
+      actions: function () {
+        return Store.getters['actions/getActions']
+      }
+    },
     methods: {
       showDeleteModal: function (index) {
         this.actionToDeleteLabel = this.actions[index].label
@@ -96,7 +84,7 @@
       },
       removeAction: function () {
         if (this.actionToDeleteIndex !== null) {
-          this.actions.splice(this.actionToDeleteIndex, 1)
+          Store.commit('actions/removeAction', this.actionToDeleteIndex)
         }
         this.actionToDeleteIndex = null
       }
