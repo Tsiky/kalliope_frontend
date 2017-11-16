@@ -1,37 +1,44 @@
 <template>
   <div class="actions-list-view">
     <h1 class="ui header">Actions</h1>
-
-    <div class="ui cards">
-      <div v-for="(value, key) in actions" class="ui card">
-        <div class="content">
-          <div class="header">{{ value.label }}</div>
-          <div class="description">
-            {{ value.type }} : {{ value.name }}
-          </div>
-        </div>
-        <div class="ui three bottom attached fluid buttons">
-          <div v-on:click="testAction(key)" class="ui icon button">
-            <i class="play icon"></i>
-          </div>
-          <div class="ui icon button">
-            <i class="setting icon"></i>
-          </div>
-          <div v-on:click="showDeleteModal(key)" class="ui icon button">
-            <i class="trash icon"></i>
+    <div class="ui grid">
+      <div class="row">
+        <div class="ui cards">
+          <div v-for="(value, key) in actions" class="ui card">
+            <div class="content">
+              <div class="header">{{ value.name }}</div>
+              <div class="description">
+                {{ value.module }} : {{ value.value }}
+              </div>
+            </div>
+            <div class="ui three bottom attached fluid buttons">
+              <div v-on:click="testAction(key)" class="ui icon button">
+                <i class="play icon"></i>
+              </div>
+              <div class="ui icon button">
+                <i class="setting icon"></i>
+              </div>
+              <div v-on:click="showDeleteModal(key)" class="ui icon button">
+                <i class="trash icon"></i>
+              </div>
+            </div>
           </div>
         </div>
       </div>
+
+      <div class="row">
+        <router-link to="/actions/create">
+          <button class="ui primary labeled icon button">
+            <i class="add icon"></i>
+            Add action
+          </button>
+        </router-link>
+
+        <button v-on:click="toggleLiveMode()" v-bind:class="{ positive: liveMode, loading: liveModeLoading }" class="ui icon button">
+          <i class="power icon"></i>
+        </button>
+      </div>
     </div>
-
-
-    <router-link to="/actions/create">
-      <button class="ui primary labeled icon button">
-        <i class="add icon"></i>
-        Add action
-      </button>
-    </router-link>
-
     <!-- Delete modal -->
     <div class="ui basic modal actions-delete-modal">
       <div class="ui icon header">
@@ -63,7 +70,9 @@
     data () {
       return {
         'actionToDeleteLabel': '',
-        'actionToDeleteIndex': null
+        'actionToDeleteIndex': null,
+        'liveMode': false,
+        'liveModeLoading': false
       }
     },
     computed: {
@@ -89,6 +98,22 @@
         }, response => {
           // error callback
           console.log(response.body)
+        })
+      },
+      toggleLiveMode: function () {
+        this.liveModeLoading = true
+        let data = { 'code': 1 }
+        if (this.liveMode) {
+          data = { 'code': 0 }
+        }
+        this.$http.put('/api/myapp/ctl/live', data).then(response => {
+          console.log(response.body)
+          this.liveMode = !this.liveMode
+          this.liveModeLoading = false
+        }, response => {
+          // error callback
+          console.log(response.body)
+          this.liveModeLoading = false
         })
       }
     }
