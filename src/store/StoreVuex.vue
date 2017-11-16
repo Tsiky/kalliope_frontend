@@ -1,7 +1,7 @@
 <script>
   import Vuex from 'vuex'
   import Vue from 'vue'
-//  import createPersistedState from 'vuex-persistedstate'
+  import createPersistedState from 'vuex-persistedstate'
 //  import * as Cookies from 'js-cookie'
   import actions from './modules/actions'
 
@@ -20,7 +20,7 @@
       // Save state in session storage
 //      createPersistedState({ storage: window.sessionStorage })
       // Save state in local storage
-//       createPersistedState({ storage: window.localStorage })
+      createPersistedState({ storage: window.localStorage })
     ]
   })
 </script>

@@ -1,25 +1,25 @@
 // Store for actions
 
-const mockActions = [{
-  'label': 'Blue screen',
-  'type': 'color',
-  'name': 'color'
-}, {
-  'label': 'Red screen',
-  'type': 'color',
-  'name': 'color'
-}, {
-  'label': 'First quizz',
-  'type': 'quizz',
-  'name': 'question'
-}, {
-  'label': 'Second quizz',
-  'type': 'quizz',
-  'name': 'answer'
-}]
+// var mockActions = [{
+//   'label': 'Blue screen',
+//   'type': 'color',
+//   'name': 'color'
+// }, {
+//   'label': 'Red screen',
+//   'type': 'color',
+//   'name': 'color'
+// }, {
+//   'label': 'First quizz',
+//   'type': 'quizz',
+//   'name': 'question'
+// }, {
+//   'label': 'Second quizz',
+//   'type': 'quizz',
+//   'name': 'answer'
+// }]
 
 const state = {
-  'actions': mockActions
+  'actions': []
 }
 
 const getters = {
