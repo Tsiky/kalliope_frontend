@@ -4,7 +4,7 @@
     <div class="ui inverted segment">
       <div class="ui inverted secondary pointing menu">
         <!--<div class="header item">-->
-          <img class="test" src="./assets/small_logo.png">
+          <img class="header_item_custom" src="./assets/small_logo.png">
         <!--</div>-->
         <router-link class="item" to="/home">
           Home
@@ -42,7 +42,7 @@
 </script>
 
 <style>
-  .test {
+  .header_item_custom {
     margin-right: 1rem;
   }
 </style>

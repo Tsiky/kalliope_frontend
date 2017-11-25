@@ -82,6 +82,14 @@
         return Store.getters['liveMode/getLiveMode']
       }
     },
+    created: function () {
+      this.$http.get('/api/myapp/action').then(response => {
+        Store.commit('actions/setActions', response.body)
+      }, response => {
+        // error callback
+        console.log(response.body)
+      })
+    },
     methods: {
       showDeleteModal: function (index) {
         this.actionToDeleteLabel = this.actions[index].label
@@ -90,7 +98,13 @@
       },
       removeAction: function () {
         if (this.actionToDeleteIndex !== null) {
-          Store.commit('actions/removeAction', this.actionToDeleteIndex)
+          this.$http.post('/api/myapp/delete', { 'name': this.actions[this.actionToDeleteIndex].name }).then(response => {
+            console.log(response.body)
+            Store.commit('actions/removeAction', this.actionToDeleteIndex)
+          }, response => {
+            // error callback
+            console.log(response.body)
+          })
         }
         this.actionToDeleteIndex = null
       },
