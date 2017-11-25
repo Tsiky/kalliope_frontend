@@ -7,6 +7,7 @@ import ChannelsView from '@/components/ChannelsView'
 import ActionsView from '@/components/ActionsView'
 import ActionsCreateView from '@/components/ActionsCreateView'
 import ActionsListView from '@/components/ActionsListView'
+import SituationsView from '@/components/SituationsView'
 import ErrorRouteView from '@/components/ErrorRouteView'
 
 Vue.use(Router)
@@ -47,6 +48,11 @@ export default new Router({
         name: 'ActionsCreateView',
         component: ActionsCreateView
       }]
+    },
+    {
+      path: '/situations',
+      name: 'SituationsView',
+      component: SituationsView
     },
     {
       path: '/404',

@@ -3,11 +3,14 @@
 
     <div class="ui inverted segment">
       <div class="ui inverted secondary pointing menu">
-        <div class="header item">
-          Kalliope
-        </div>
+        <!--<div class="header item">-->
+          <img class="test" src="./assets/small_logo.png">
+        <!--</div>-->
         <router-link class="item" to="/home">
           Home
+        </router-link>
+        <router-link class="item" to="/situations">
+          Situations
         </router-link>
         <router-link class="item" to="/actions">
           Actions
@@ -39,4 +42,7 @@
 </script>
 
 <style>
+  .test {
+    margin-right: 1rem;
+  }
 </style>
