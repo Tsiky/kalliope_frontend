@@ -8,6 +8,8 @@ import ActionsView from '@/components/ActionsView'
 import ActionsCreateView from '@/components/ActionsCreateView'
 import ActionsListView from '@/components/ActionsListView'
 import SituationsView from '@/components/SituationsView'
+import SituationsCreateView from '@/components/SituationsCreateView'
+import SituationsListView from '@/components/SituationsListView'
 import ErrorRouteView from '@/components/ErrorRouteView'
 
 Vue.use(Router)
@@ -52,7 +54,16 @@ export default new Router({
     {
       path: '/situations',
       name: 'SituationsView',
-      component: SituationsView
+      component: SituationsView,
+      children: [{
+        path: '',
+        name: 'SituationsListView',
+        component: SituationsListView
+      }, {
+        path: 'create',
+        name: 'SituationsCreateView',
+        component: SituationsCreateView
+      }]
     },
     {
       path: '/404',

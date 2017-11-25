@@ -1,7 +1,7 @@
 <template>
   <div class="situations-view">
-    <h1 class="ui header">Situations</h1>
-
+    <!-- Sub-route -->
+    <router-view></router-view>
   </div>
 </template>
 

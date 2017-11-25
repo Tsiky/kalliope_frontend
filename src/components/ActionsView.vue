@@ -1,9 +1,7 @@
 <template>
   <div class="actions-view">
-
     <!-- Sub-route -->
     <router-view></router-view>
-
   </div>
 </template>
 
