@@ -36,8 +36,26 @@
 </template>
 
 <script>
+  import Store from './store/StoreVuex.vue'
   export default {
-    name: 'app'
+    name: 'app',
+    created: function () {
+      // TEMP
+      this.$http.put('/api/myapp/situation', { 'name': 'situationTest' }).then(response => {
+        console.log(response.body)
+      }, response => {
+        // error callback
+        console.log(response.body)
+      })
+      this.$http.put('/api/myapp/ctl/live', { 'code': 0 }).then(response => {
+        console.log(response.body)
+        Store.commit('liveMode/setLiveMode', false)
+        this.liveModeLoading = false
+      }, response => {
+        // error callback
+        console.log(response.body)
+      })
+    }
   }
 </script>
 

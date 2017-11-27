@@ -83,8 +83,13 @@
       }
     },
     created: function () {
+      // Get actions from API
       this.$http.get('/api/myapp/action').then(response => {
-        Store.commit('actions/setActions', response.body)
+        if (response.body) {
+          Store.commit('actions/setActions', response.body)
+        } else {
+          Store.commit('actions/setActions', {})
+        }
       }, response => {
         // error callback
         console.log(response.body)

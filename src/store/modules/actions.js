@@ -33,7 +33,10 @@ const mutations = {
     state.actions = value
   },
   addAction (state, value) {
-    state.actions.push(value)
+    // state.actions.push(value)
+    if (value.name) {
+      state.actions[value.name] = value
+    }
   },
   removeAction (state, index) {
     state.actions.splice(index, 1)
