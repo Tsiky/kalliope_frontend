@@ -1,7 +1,7 @@
 // Store for situations
 
 const state = {
-  'situations': []
+  'situations': {}
 }
 
 const getters = {
@@ -15,7 +15,7 @@ const mutations = {
     state.situations = value
   },
   addSituation (state, value) {
-    state.situations.push(value)
+    state.situations[value.name] = value
   },
   removeSituation (state, index) {
     state.situations.splice(index, 1)

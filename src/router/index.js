@@ -74,10 +74,10 @@ export default new Router({
       path: '/404',
       name: 'ErrorRouteView',
       component: ErrorRouteView
-    // },
-    // {
-    //   path: '*',
-    //   redirect: '/404'
+    },
+    {
+      path: '*',
+      redirect: '/404'
     }
   ],
   linkExactActiveClass: 'active',

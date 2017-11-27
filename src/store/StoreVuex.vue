@@ -3,6 +3,7 @@
   import Vue from 'vue'
   import createPersistedState from 'vuex-persistedstate'
 //  import * as Cookies from 'js-cookie'
+  import situations from './modules/situations'
   import actions from './modules/actions'
   import liveMode from './modules/liveMode'
 
@@ -10,6 +11,7 @@
   export default new Vuex.Store({
     strict: true,
     modules: {
+      situations,
       actions,
       liveMode
     },

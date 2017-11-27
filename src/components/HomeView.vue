@@ -1,18 +1,16 @@
 <template>
   <div class="home">
-    <img src="../assets/kalliope_logo.png">
+    <div class="ui message">
+      <div class="header">
+        Welcome to your Kalliope dashboard
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-//  import $ from 'jquery'
   export default {
-    name: 'HomeView',
-    data () {
-      return {
-        msg: 'Welcome to your Kalliope dashboard'
-      }
-    }
+    name: 'HomeView'
   }
 </script>
 
