@@ -30,14 +30,18 @@
       <div class="three fields">
         <div class="field">
           <label>Sensor</label>
-          <select v-model="newSensor">
-            <option v-for="sensor in sensors" :value="sensor">{{ sensor }}</option>
+          <select v-model='newSensor' class='ui dropdown triggers-dropdown'>
+            <option v-for='sensor in sensors' :value='sensor'>
+              {{ sensor }}
+            </option>
           </select>
         </div>
         <div class="field">
           <label>Operator</label>
-          <select v-model="newOperator">
-            <option v-for="operator in operators" :value="operator">{{ operator }}</option>
+          <select v-model='newOperator' class='ui dropdown triggers-dropdown'>
+            <option v-for='operator in operators' :value='operator'>
+              {{ operator }}
+            </option>
           </select>
         </div>
         <div class="field">
@@ -54,6 +58,7 @@
 </template>
 
 <script>
+  import $ from 'jquery'
   export default {
     name: 'TriggersView',
     data () {
@@ -73,6 +78,9 @@
         'newOperator': '',
         'newValue': ''
       }
+    },
+    mounted: function () {
+      $('.triggers-dropdown').dropdown()
     },
     methods: {
       addTrigger: function () {

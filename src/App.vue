@@ -41,7 +41,7 @@
     name: 'app',
     created: function () {
       // TEMP
-      this.$http.put('/api/myapp/situation', { 'name': 'situationTest' }).then(response => {
+      this.$http.put('/api/myapp/situation', { 'name': 'FirstSituation' }).then(response => {
         console.log(response.body)
       }, response => {
         // error callback

@@ -105,7 +105,7 @@
               'background-color': this.backgroundColorValue
             },
             'aref': 'string',
-            'situation': 'situationTest'
+            'situation': 'FirstSituation'
           }
 
           this.$http.put('/api/myapp/action', newAction).then(response => {
