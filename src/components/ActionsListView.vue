@@ -15,7 +15,7 @@
               <div v-on:click="testAction(key)" class="ui icon button">
                 <i class="play icon"></i>
               </div>
-              <div class="ui icon button">
+              <div v-on:click="goToUpdateView(key)" class="ui icon button">
                 <i class="setting icon"></i>
               </div>
               <div v-on:click="showDeleteModal(key)" class="ui icon button">
@@ -65,6 +65,7 @@
 <script>
   import $ from 'jquery'
   import Store from '../store/StoreVuex.vue'
+  import Router from '../router/index'
   export default {
     name: 'ActionsListView',
     data () {
@@ -120,6 +121,9 @@
           // error callback
           console.log(response.body)
         })
+      },
+      goToUpdateView: function (key) {
+        Router.push({ path: `/actions/update/${key}` })
       },
       toggleLiveMode: function () {
         this.liveModeLoading = true

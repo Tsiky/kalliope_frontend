@@ -6,6 +6,7 @@ import RulesView from '@/components/RulesView'
 import ChannelsView from '@/components/ChannelsView'
 import ActionsView from '@/components/ActionsView'
 import ActionsCreateView from '@/components/ActionsCreateView'
+import ActionsUpdateView from '@/components/ActionsUpdateView'
 import ActionsListView from '@/components/ActionsListView'
 import SituationsView from '@/components/SituationsView'
 import SituationsCreateView from '@/components/SituationsCreateView'
@@ -49,6 +50,10 @@ export default new Router({
         path: 'create',
         name: 'ActionsCreateView',
         component: ActionsCreateView
+      }, {
+        path: 'update/:key',
+        name: 'ActionsUpdateView',
+        component: ActionsUpdateView
       }]
     },
     {
@@ -69,10 +74,10 @@ export default new Router({
       path: '/404',
       name: 'ErrorRouteView',
       component: ErrorRouteView
-    },
-    {
-      path: '*',
-      redirect: '/404'
+    // },
+    // {
+    //   path: '*',
+    //   redirect: '/404'
     }
   ],
   linkExactActiveClass: 'active',

@@ -25,12 +25,18 @@ const state = {
 const getters = {
   getActions: state => {
     return state.actions
+  },
+  getAction: state => (key) => {
+    return state.actions[key]
   }
 }
 
 const mutations = {
   setActions (state, value) {
     state.actions = value
+  },
+  setAction (state, value) {
+    state.actions[value.name] = value
   },
   addAction (state, value) {
     // state.actions.push(value)
