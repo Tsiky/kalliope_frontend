@@ -7,6 +7,9 @@ const state = {
 const getters = {
   getSituations: state => {
     return state.situations
+  },
+  getSituation: state => (key) => {
+    return state.situations[key]
   }
 }
 

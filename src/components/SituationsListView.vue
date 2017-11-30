@@ -15,10 +15,10 @@
               </div>
             </div>
             <div class="ui three bottom attached fluid buttons">
-              <div v-on:click="" class="ui icon button">
-                <i class="play icon"></i>
+              <div v-on:click="goToDetailsView(key)" class="ui icon button">
+                <i class="info icon"></i>
               </div>
-              <div v-on:click="" class="ui icon button">
+              <div v-on:click="goToUpdateView(key)" class="ui icon button">
                 <i class="setting icon"></i>
               </div>
               <div v-on:click="" class="ui icon button">
@@ -43,6 +43,7 @@
 
 <script>
   import Store from '../store/StoreVuex.vue'
+  import Router from '../router/index'
   export default {
     name: 'SituationsListView',
     computed: {
@@ -62,6 +63,15 @@
         // error callback
         console.log(response.body)
       })
+    },
+    methods: {
+      goToDetailsView: function (key) {
+        Router.push({ path: `/situations/details/${key}` })
+      },
+      goToUpdateView: function (key) {
+        Router.push({ path: `/situations/update/${key}` })
+      }
+
     }
   }
 </script>

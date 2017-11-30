@@ -10,6 +10,8 @@ import ActionsUpdateView from '@/components/ActionsUpdateView'
 import ActionsListView from '@/components/ActionsListView'
 import SituationsView from '@/components/SituationsView'
 import SituationsCreateView from '@/components/SituationsCreateView'
+import SituationsDetailsView from '@/components/SituationsDetailsView'
+import SituationsUpdateView from '@/components/SituationsUpdateView'
 import SituationsListView from '@/components/SituationsListView'
 import ErrorRouteView from '@/components/ErrorRouteView'
 
@@ -68,6 +70,14 @@ export default new Router({
         path: 'create',
         name: 'SituationsCreateView',
         component: SituationsCreateView
+      }, {
+        path: 'details/:key',
+        name: 'SituationsDetailsView',
+        component: SituationsDetailsView
+      }, {
+        path: 'update/:key',
+        name: 'SituationsUpdateView',
+        component: SituationsUpdateView
       }]
     },
     {
