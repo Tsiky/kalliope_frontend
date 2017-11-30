@@ -33,10 +33,6 @@
             Add action
           </button>
         </router-link>
-
-        <button v-on:click="toggleLiveMode()" v-bind:class="{ positive: liveMode, loading: liveModeLoading }" class="ui icon button">
-          <i class="power icon"></i>
-        </button>
       </div>
     </div>
     <!-- Delete modal -->
@@ -71,16 +67,12 @@
     data () {
       return {
         'actionToDeleteLabel': '',
-        'actionToDeleteIndex': null,
-        'liveModeLoading': false
+        'actionToDeleteIndex': null
       }
     },
     computed: {
       actions: function () {
         return Store.getters['actions/getActions']
-      },
-      liveMode: function () {
-        return Store.getters['liveMode/getLiveMode']
       }
     },
     created: function () {
@@ -124,22 +116,6 @@
       },
       goToUpdateView: function (key) {
         Router.push({ path: `/actions/update/${key}` })
-      },
-      toggleLiveMode: function () {
-        this.liveModeLoading = true
-        let data = { 'code': 1 }
-        if (this.liveMode) {
-          data = { 'code': 0 }
-        }
-        this.$http.put('/api/myapp/ctl/live', data).then(response => {
-          console.log(response.body)
-          Store.commit('liveMode/setLiveMode', !this.liveMode)
-          this.liveModeLoading = false
-        }, response => {
-          // error callback
-          console.log(response.body)
-          this.liveModeLoading = false
-        })
       }
     }
   }
