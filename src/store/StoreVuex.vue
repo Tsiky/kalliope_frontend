@@ -6,6 +6,7 @@
   import situations from './modules/situations'
   import actions from './modules/actions'
   import liveMode from './modules/liveMode'
+  import channels from './modules/channels'
 
   Vue.use(Vuex)
   export default new Vuex.Store({
@@ -13,7 +14,8 @@
     modules: {
       situations,
       actions,
-      liveMode
+      liveMode,
+      channels
     },
     plugins: [
       // Save state in cookie
