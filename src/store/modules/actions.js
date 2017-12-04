@@ -28,6 +28,13 @@ const getters = {
   },
   getAction: state => (key) => {
     return state.actions[key]
+  },
+  getMultipleActions: state => (keys) => {
+    let selectedActions = {}
+    for (let i in keys) {
+      selectedActions[keys[i]] = state.actions[keys[i]]
+    }
+    return selectedActions
   }
 }
 

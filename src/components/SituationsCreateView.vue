@@ -9,17 +9,9 @@
       </div>
       <div class="field">
         <label>Actions</label>
-        <div class="ui list">
-          <div v-for="action in actionsValue" class="item">
-            <button v-on:click="removeAction(action)" class="ui icon mini negative button" title="Delete">
-              <i class="trash icon"></i>
-            </button>
-            {{ action }}
-          </div>
-        </div>
         <div class="fields">
           <div class="fourteen wide field">
-            <select v-model='actionName' class='ui dropdown situations-create-dropdown'>
+            <select v-model='actionName' class='ui search dropdown situations-create-dropdown'>
               <option v-for='name in actionsName' :value='name'>
                 {{ name }}
               </option>
@@ -33,7 +25,27 @@
           </div>
         </div>
       </div>
-
+    </div>
+    <div class="ui cards">
+      <div v-for="(value, key) in selectedActions" class="ui card">
+        <div class="content">
+          <div class="header">{{ getPositionInArray(key) + 1}}. {{ value.name }}</div>
+          <div class="description">
+            {{ value.module }} : {{ value.value }}
+          </div>
+        </div>
+        <div class="ui three bottom attached fluid buttons">
+          <div v-on:click="moveToLeft(getPositionInArray(key))" class="ui icon button">
+            <i class="chevron left icon"></i>
+          </div>
+          <div v-on:click="removeAction(getPositionInArray(key))" class="ui icon button">
+            <i class="trash icon"></i>
+          </div>
+          <div v-on:click="moveToRight(getPositionInArray(key))" class="ui icon button">
+            <i class="chevron right icon"></i>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="situations-create-buttons">
       <router-link to='/situations/'>
@@ -74,6 +86,9 @@
           }
         }
         return names
+      },
+      selectedActions: function () {
+        return Store.getters['actions/getMultipleActions'](this.actionsValue)
       }
     },
     created: function () {
@@ -120,9 +135,24 @@
           $('.situations-create-dropdown').dropdown('clear')
         }
       },
-      removeAction: function (actionName) {
-        if (actionName) {
-          this.actionsValue.splice(this.actionsValue.indexOf(actionName), 1)
+      removeAction: function (position) {
+        this.actionsValue.splice(position, 1)
+      },
+      getPositionInArray: function (key) {
+        return this.actionsValue.indexOf(key)
+      },
+      moveToLeft: function (position) {
+        if (position > 0) {
+          let temp = this.actionsValue[position - 1]
+          this.$set(this.actionsValue, position - 1, this.actionsValue[position])
+          this.$set(this.actionsValue, position, temp)
+        }
+      },
+      moveToRight: function (position) {
+        if (position < this.actionsValue.length - 1) {
+          let temp = this.actionsValue[position + 1]
+          this.$set(this.actionsValue, position + 1, this.actionsValue[position])
+          this.$set(this.actionsValue, position, temp)
         }
       }
     }
