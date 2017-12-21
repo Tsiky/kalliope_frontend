@@ -50,7 +50,7 @@
         </div>
       </div>
     </div>
-    <button v-on:click="addTrigger" class="ui primary labeled icon button">
+    <button v-on:click="addTrigger" v-bind:class="{ disabled: !canAddTrigger }" class="ui primary labeled icon button">
       <i class="add icon"></i>
       Add rule
     </button>
@@ -59,24 +59,24 @@
 
 <script>
   import $ from 'jquery'
+  import Store from '../store/StoreVuex.vue'
   export default {
     name: 'TriggersView',
     data () {
       return {
         'sensors': ['Temperature 1', 'Temperature 2', 'Light 1'],
         'operators': ['>', '<'],
-        'triggers': [{
-          'sensor': 'Temperature 1',
-          'operator': '>',
-          'value': 10
-        }, {
-          'sensor': 'Light 1',
-          'operator': '<',
-          'value': 20
-        }],
         'newSensor': '',
         'newOperator': '',
         'newValue': ''
+      }
+    },
+    computed: {
+      triggers: function () {
+        return Store.getters['triggers/getTriggers']
+      },
+      canAddTrigger: function () {
+        return this.newSensor !== '' && this.newOperator !== '' && this.newValue !== ''
       }
     },
     mounted: function () {
@@ -84,19 +84,21 @@
     },
     methods: {
       addTrigger: function () {
-        if (this.newSensor !== '' && this.newOperator !== '' && this.newValue !== '') {
-          this.triggers.push({
+        if (this.canAddTrigger) {
+          let newTrigger = {
             'sensor': this.newSensor,
             'operator': this.newOperator,
             'value': this.newValue
-          })
+          }
+          Store.commit('triggers/addTrigger', newTrigger)
           this.newSensor = ''
           this.newOperator = ''
           this.newValue = ''
+          $('.triggers-dropdown').dropdown('clear')
         }
       },
       removeTrigger: function (index) {
-        this.triggers.splice(index, 1)
+        Store.commit('triggers/removeTrigger', index)
       }
     }
   }

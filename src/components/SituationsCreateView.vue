@@ -7,6 +7,11 @@
         <label>Name</label>
         <input v-model='nameValue' type='text'>
       </div>
+
+      <h4 class="ui horizontal divider header">
+        <i class="block layout icon"></i>
+        Actions
+      </h4>
       <div class="field">
         <label>Actions</label>
         <div class="fields">
@@ -47,6 +52,11 @@
         </div>
       </div>
     </div>
+
+    <h4 class="ui horizontal divider header">
+      <i class="pointing right chart icon"></i>
+      Rules
+    </h4>
     <div class="situations-create-buttons">
       <router-link to='/situations/'>
         <button class='ui labeled icon button'>
@@ -163,5 +173,9 @@
 <style scoped>
   .situations-create-buttons {
     margin-top: 1.5rem;
+  }
+  .divider {
+    margin-top: 4rem;
+    margin-bottom: 2rem;
   }
 </style>

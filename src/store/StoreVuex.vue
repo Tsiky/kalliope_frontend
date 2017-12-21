@@ -5,6 +5,7 @@
 //  import * as Cookies from 'js-cookie'
   import situations from './modules/situations'
   import actions from './modules/actions'
+  import triggers from './modules/triggers'
   import liveMode from './modules/liveMode'
   import channels from './modules/channels'
 
@@ -14,6 +15,7 @@
     modules: {
       situations,
       actions,
+      triggers,
       liveMode,
       channels
     },
