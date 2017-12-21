@@ -21,7 +21,7 @@
               <div v-on:click="goToUpdateView(key)" class="ui icon button">
                 <i class="setting icon"></i>
               </div>
-              <div v-on:click="" class="ui icon button">
+              <div v-on:click="showDeleteModal(key)" class="ui icon button">
                 <i class="trash icon"></i>
               </div>
             </div>
@@ -38,14 +38,41 @@
         </router-link>
       </div>
     </div>
+    <!-- Delete modal -->
+    <div class="ui basic modal situations-delete-modal">
+      <div class="ui icon header">
+        <i class="trash icon"></i>
+        Delete action
+      </div>
+      <div class="content modal-content">
+        <p>Are you sure you want to permanently remove the situation "{{ situationToDeleteName }}" ?</p>
+      </div>
+      <div class="actions center">
+        <div class="ui red cancel inverted button">
+          <i class="remove icon"></i>
+          No
+        </div>
+        <div v-on:click="removeSituation()" class="ui green ok inverted button">
+          <i class="checkmark icon"></i>
+          Yes
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+  import $ from 'jquery'
   import Store from '../store/StoreVuex.vue'
   import Router from '../router/index'
   export default {
     name: 'SituationsListView',
+    data () {
+      return {
+        'situationToDeleteName': '',
+        'situationToDeleteIndex': null
+      }
+    },
     computed: {
       situations: function () {
         return Store.getters['situations/getSituations']
@@ -70,8 +97,24 @@
       },
       goToUpdateView: function (key) {
         Router.push({ path: `/situations/update/${key}` })
+      },
+      showDeleteModal: function (index) {
+        this.situationToDeleteName = this.situations[index].name
+        this.situationToDeleteIndex = index
+        $('.situations-delete-modal').modal('show')
+      },
+      removeSituation: function () {
+        if (this.situationToDeleteIndex !== null) {
+          this.$http.post('/api/myapp/situation', { 'name': this.situationToDeleteName }).then(response => {
+            console.log(response.body)
+            Store.commit('actions/removeAction', this.situationToDeleteIndex)
+          }, response => {
+            // error callback
+            console.log(response.body)
+          })
+        }
+        this.situationToDeleteIndex = null
       }
-
     }
   }
 </script>

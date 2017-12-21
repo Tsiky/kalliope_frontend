@@ -42,7 +42,7 @@
         Delete action
       </div>
       <div class="content modal-content">
-        <p>Are you sure you want to permanently remove the action "{{ actionToDeleteLabel }}" ?</p>
+        <p>Are you sure you want to permanently remove the action "{{ actionToDeleteName }}" ?</p>
       </div>
       <div class="actions center">
         <div class="ui red cancel inverted button">
@@ -66,7 +66,7 @@
     name: 'ActionsListView',
     data () {
       return {
-        'actionToDeleteLabel': '',
+        'actionToDeleteName': '',
         'actionToDeleteIndex': null
       }
     },
@@ -93,13 +93,13 @@
     },
     methods: {
       showDeleteModal: function (index) {
-        this.actionToDeleteLabel = this.actions[index].label
+        this.actionToDeleteName = this.actions[index].name
         this.actionToDeleteIndex = index
         $('.actions-delete-modal').modal('show')
       },
       removeAction: function () {
         if (this.actionToDeleteIndex !== null) {
-          this.$http.post('/api/myapp/delete', { 'name': this.actions[this.actionToDeleteIndex].name }).then(response => {
+          this.$http.delete('/api/myapp/action', { 'name': this.actionToDeleteName }).then(response => {
             console.log(response.body)
             Store.commit('actions/removeAction', this.actionToDeleteIndex)
           }, response => {
