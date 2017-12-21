@@ -1,13 +1,13 @@
 <template>
-  <div class="rules-view">
-    <h1 class="ui header">Rules</h1>
+  <div class="medias-view">
+    <h1 class="ui header">Medias</h1>
 
   </div>
 </template>
 
 <script>
   export default {
-    name: 'RulesView'
+    name: 'MediasView'
   }
 </script>
 

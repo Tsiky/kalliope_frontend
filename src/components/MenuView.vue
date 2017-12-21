@@ -14,14 +14,14 @@
         <router-link class="item" to="/actions">
           Actions
         </router-link>
-        <router-link class="item" to="/channels">
-          Channels
-        </router-link>
         <router-link class="item" to="/triggers">
           Triggers
         </router-link>
-        <router-link class="item" to="/rules">
-          Rules
+        <router-link class="item" to="/channels">
+          Channels
+        </router-link>
+        <router-link class="item" to="/medias">
+          Medias
         </router-link>
         <div class="right menu">
           <live-mode-view></live-mode-view>

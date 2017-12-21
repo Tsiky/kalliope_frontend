@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import HomeView from '@/components/HomeView'
 import TriggersView from '@/components/TriggersView'
-import RulesView from '@/components/RulesView'
+import MediasView from '@/components/MediasView'
 import ChannelsView from '@/components/ChannelsView'
 import ActionsView from '@/components/ActionsView'
 import ActionsCreateView from '@/components/ActionsCreateView'
@@ -31,9 +31,9 @@ export default new Router({
       component: TriggersView
     },
     {
-      path: '/rules',
-      name: 'RulesView',
-      component: RulesView
+      path: '/medias',
+      name: 'MediasView',
+      component: MediasView
     },
     {
       path: '/channels',
