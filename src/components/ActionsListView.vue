@@ -12,7 +12,7 @@
               </div>
             </div>
             <div class="ui three bottom attached fluid buttons">
-              <div v-on:click="testAction(key)" class="ui icon button">
+              <div v-on:click="testAction(key)" v-bind:class="{ disabled: !liveMode }" class="ui icon button">
                 <i class="play icon"></i>
               </div>
               <div v-on:click="goToUpdateView(key)" class="ui icon button">
@@ -73,6 +73,9 @@
     computed: {
       actions: function () {
         return Store.getters['actions/getActions']
+      },
+      liveMode: function () {
+        return Store.getters['liveMode/getLiveMode']
       }
     },
     created: function () {

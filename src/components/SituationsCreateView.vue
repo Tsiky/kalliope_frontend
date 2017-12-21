@@ -18,7 +18,7 @@
             </select>
           </div>
           <div class="two wide field">
-            <button v-on:click='addAction()' v-bind:class="{ loading: loading }" class='ui primary labeled icon button'>
+            <button v-on:click='addAction()' class='ui primary labeled icon button'>
               <i class='add icon'></i>
               Add
             </button>
@@ -39,7 +39,7 @@
             <i class="chevron left icon"></i>
           </div>
           <div v-on:click="removeAction(getPositionInArray(key))" class="ui icon button">
-            <i class="trash icon"></i>
+            <i class="remove icon"></i>
           </div>
           <div v-on:click="moveToRight(getPositionInArray(key))" class="ui icon button">
             <i class="chevron right icon"></i>

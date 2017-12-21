@@ -9,7 +9,7 @@
             <div class="content">
               <div class="header">{{ value.name }}</div>
               <div class="description">
-                <div class="ui bulleted list">
+                <div class="ui ordered list">
                   <div v-for="action in value.actions" class="item">{{ action }}</div>
                 </div>
               </div>

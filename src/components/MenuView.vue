@@ -41,4 +41,7 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  .menu-view {
+    margin-bottom: 2rem;
+  }
 </style>

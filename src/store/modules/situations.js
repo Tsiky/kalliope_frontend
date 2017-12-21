@@ -17,6 +17,9 @@ const mutations = {
   setSituations (state, value) {
     state.situations = value
   },
+  setSituation (state, value) {
+    state.situations[value.name] = value
+  },
   addSituation (state, value) {
     state.situations[value.name] = value
   },
