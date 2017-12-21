@@ -3,8 +3,8 @@
     <h1 class="ui header">Triggers</h1>
 
     <table class="ui padded table">
-      <thead>
-      <tr><th>Sensor</th>
+      <thead><tr>
+        <th>Sensor</th>
         <th>Operator</th>
         <th>Value</th>
         <th></th>
