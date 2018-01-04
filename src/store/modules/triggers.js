@@ -1,24 +1,28 @@
 // Store for triggers
 
 // const state = {
-//   'triggers': [{
-//     'sensor': 'Temperature 1',
-//     'operator': '>',
-//     'value': 10
-//   }, {
-//     'sensor': 'Light 1',
-//     'operator': '<',
-//     'value': 20
-//   }]
+//   'triggers': {
+//     'testtriger': {
+//       'name': 'testtriger',
+//       'content': 'testsensor == 1 AND sensor2 < 32.12 OR sensor3 > 42 => testaction'
+//     }
+//   }
 // }
 
 const state = {
-  'triggers': []
+  'triggers': {}
 }
 
 const getters = {
   getTriggers: state => {
     return state.triggers
+  },
+  getMultipleTriggers: state => (keys) => {
+    let selectedTriggers = {}
+    for (let i in keys) {
+      selectedTriggers[keys[i]] = state.triggers[keys[i]]
+    }
+    return selectedTriggers
   }
 }
 
@@ -26,15 +30,10 @@ const mutations = {
   setTriggers (state, value) {
     state.triggers = value
   },
-  addTrigger (state, newTrigger) {
-    state.triggers.push({
-      'sensor': newTrigger.sensor,
-      'operator': newTrigger.operator,
-      'value': newTrigger.value
-    })
-  },
-  removeTrigger (state, index) {
-    state.triggers.splice(index, 1)
+  addTrigger (state, value) {
+    if (value.name) {
+      state.triggers[value.name] = value
+    }
   }
 }
 

@@ -10,6 +10,12 @@
     name: 'ChannelsView',
 
     created: function () {
+      // this.$http.get('/api/myapp/v1/channels').then(response => {
+      //   console.log(response.body)
+      // }, response => {
+      //   // error callback
+      //   console.log(response.body)
+      // })
       // Get channels from API
       // this.$http.headers.common['Access-Control-Allow-Origin'] = true
       // this.$http.jsonp('https://kapi.iglor.es/v1/channels').then(response => {

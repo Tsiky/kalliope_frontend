@@ -16,14 +16,14 @@
         <label>Available actions</label>
         <div class="fields">
           <div class="fourteen wide field">
-            <select v-model='actionName' class='ui search dropdown situations-create-dropdown-actions'>
+            <select v-model='actionForm' class='ui search dropdown situations-create-dropdown-actions'>
               <option v-for='name in actionsName' :value='name'>
                 {{ name }}
               </option>
             </select>
           </div>
           <div class="two wide field">
-            <button v-on:click='addAction()' v-bind:class="{ disabled: actionName === undefined}" class='ui primary labeled icon button'>
+            <button v-on:click='addAction()' v-bind:class="{ disabled: actionForm === '' || actionForm === undefined, loading: loading }" class='ui primary labeled icon button'>
               <i class='add icon'></i>
               Add
             </button>
@@ -33,19 +33,19 @@
       <div class="ui cards">
         <div v-for="(value, key) in selectedActions" class="ui card">
           <div class="content">
-            <div class="header">{{ getPositionInArray(key) + 1}}. {{ value.name }}</div>
+            <div class="header">{{ getPositionInArrayActions(key) + 1}}. {{ value.name }}</div>
             <div class="description">
               {{ value.module }} : {{ value.value }}
             </div>
           </div>
           <div class="ui three bottom attached fluid buttons">
-            <div v-on:click="moveToLeft(getPositionInArray(key))" class="ui icon button">
+            <div v-on:click="moveToLeft(getPositionInArrayActions(key))" class="ui icon button">
               <i class="chevron left icon"></i>
             </div>
-            <div v-on:click="removeAction(getPositionInArray(key))" class="ui icon button">
+            <div v-on:click="removeAction(getPositionInArrayActions(key))" class="ui icon button">
               <i class="remove icon"></i>
             </div>
-            <div v-on:click="moveToRight(getPositionInArray(key))" class="ui icon button">
+            <div v-on:click="moveToRight(getPositionInArrayActions(key))" class="ui icon button">
               <i class="chevron right icon"></i>
             </div>
           </div>
@@ -54,50 +54,41 @@
 
       <h4 class="ui horizontal divider header">
         <i class="pointing right chart icon"></i>
-        Rules
+        Triggers
       </h4>
-      <div class="fields">
-        <div class="seven wide field">
-          <select v-model='triggerName' class='ui search dropdown situations-create-dropdown-rules'>
-            <option v-for='name in triggersName' :value='name'>
-              {{ name }}
-            </option>
-          </select>
-        </div>
-        <div class="seven wide field">
-          <select v-model='actionForRuleName' class='ui search dropdown situations-create-dropdown-rules'>
-            <option v-for='name in actionsName' :value='name'>
-              {{ name }}
-            </option>
-          </select>
-        </div>
-        <div class="two wide field">
-          <button v-on:click='addRule()' v-bind:class="{ disabled: triggerName === undefined && actionForRuleName === undefined }" class='ui primary labeled icon button'>
-            <i class='add icon'></i>
-            Add
-          </button>
+      <div class="field">
+        <label>Content</label>
+        <textarea v-model="triggerFormContent" rows="2"></textarea>
+      </div>
+      <div class="field">
+        <label>Name</label>
+        <div class="fields">
+          <div class="fourteen wide field">
+            <input v-model='triggerFormName' type='text'>
+          </div>
+          <div class="two wide field">
+            <button v-on:click='addTrigger()' v-bind:class="{ disabled: triggerFormContent === '' || triggerFormName === '', loading: loading }" class='ui primary labeled icon button'>
+              <i class='add icon'></i>
+              Add
+            </button>
+          </div>
         </div>
       </div>
-      <table v-if="rulesValue.length > 0" class="ui padded table">
-        <thead><tr>
-          <th>Trigger</th>
-          <th></th>
-          <th>Action</th>
-          <th></th>
-        </tr></thead>
-        <tbody>
-        <tr v-for="rule in rulesValue">
-          <td>{{ rule.trigger}}</td>
-          <td><i class='long arrow right icon'></i></td>
-          <td>{{ rule.action }}</td>
-          <td>
-            <button v-on:click="removeRule(index)" class="ui icon button" title="Remove">
-              <i class="remove icon"></i>
-            </button>
-          </td>
-        </tr>
-        </tbody>
-      </table>
+    </div>
+    <div class="ui cards">
+      <div v-for="(value, key) in selectedTriggers" class="ui card">
+        <div class="content">
+          <div class="header">{{ value.name }}</div>
+          <div class="description">
+            {{ truncateString(value.content) }}
+          </div>
+        </div>
+        <div class="ui bottom attached fluid buttons">
+          <div v-on:click="removeTrigger(getPositionInArrayTriggers(key))" class="ui icon button">
+            <i class="remove icon"></i>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="situations-create-buttons">
       <router-link to='/situations/'>
@@ -124,10 +115,10 @@
       return {
         'nameValue': '',
         'actionsValue': [],
-        'actionName': '',
-        'rulesValue': [],
-        'triggerName': '',
-        'actionForRuleName': '',
+        'actionForm': '',
+        'triggersValue': [],
+        'triggerFormName': '',
+        'triggerFormContent': '',
         'loading': false
       }
     },
@@ -142,16 +133,14 @@
         }
         return names
       },
-      triggersName: function () {
-        let triggers = Store.getters['triggers/getTriggers']
-        let names = []
-        for (let i = 0; i < triggers.length; i++) {
-          names.push(triggers[i].sensor + ' ' + triggers[i].operator + ' ' + triggers[i].value)
-        }
-        return names
+      triggers: function () {
+        return Store.getters['triggers/getTriggers']
       },
       selectedActions: function () {
         return Store.getters['actions/getMultipleActions'](this.actionsValue)
+      },
+      selectedTriggers: function () {
+        return Store.getters['triggers/getMultipleTriggers'](this.triggersValue)
       }
     },
     created: function () {
@@ -169,7 +158,6 @@
     },
     mounted: function () {
       $('.situations-create-dropdown-actions').dropdown()
-      $('.situations-create-dropdown-rules').dropdown()
     },
     methods: {
       addSituation: function () {
@@ -193,16 +181,16 @@
         }
       },
       addAction: function () {
-        if (this.actionName && !this.actionsValue.includes(this.actionName)) {
-          this.actionsValue.push(this.actionName)
-          this.actionName = ''
+        if (this.actionForm && !this.actionsValue.includes(this.actionForm)) {
+          this.actionsValue.push(this.actionForm)
+          this.actionForm = ''
           $('.situations-create-dropdown-actions').dropdown('clear')
         }
       },
       removeAction: function (position) {
         this.actionsValue.splice(position, 1)
       },
-      getPositionInArray: function (key) {
+      getPositionInArrayActions: function (key) {
         return this.actionsValue.indexOf(key)
       },
       moveToLeft: function (position) {
@@ -219,19 +207,36 @@
           this.$set(this.actionsValue, position, temp)
         }
       },
-      addRule: function () {
-        if (this.triggerName && this.actionForRuleName) {
-          this.rulesValue.push({
-            'trigger': this.triggerName,
-            'action': this.actionForRuleName
-          })
-          this.triggerName = ''
-          this.actionForRuleName = ''
-          $('.situations-create-dropdown-rules').dropdown('clear')
+      addTrigger: function () {
+        let newTrigger = {
+          'name': this.triggerFormName,
+          'content': this.triggerFormContent
         }
+        this.loading = true
+        this.$http.put('/api/myapp/trigger', newTrigger).then(response => {
+          this.loading = false
+          Store.commit('triggers/addTrigger', newTrigger)
+          this.triggersValue.push(this.triggerFormName)
+          this.triggerFormName = ''
+          this.triggerFormContent = ''
+        }, response => {
+          // error callback
+          console.log(response.body)
+          this.loading = false
+        })
       },
-      removeRule: function (index) {
-        this.rulesValue.splice(index, 1)
+      removeTrigger: function (position) {
+        this.triggersValue.splice(position, 1)
+      },
+      getPositionInArrayTriggers: function (key) {
+        return this.triggersValue.indexOf(key)
+      },
+      truncateString: function (str) {
+        if (str.length > 110) {
+          return str.substring(0, 110) + '…'
+        } else {
+          return str
+        }
       }
     }
   }
