@@ -11,13 +11,28 @@
       <tbody>
       <tr v-for="(value, key) in triggers">
         <td>{{ value.name }}</td>
-        <td>{{ value.content }}</td>
-        <td>
-          <button class="ui icon button" title="Edit">
+        <td v-if="triggerToUpdate !== value.name">{{ value.content }}</td>
+        <td v-else>
+          <div class="ui form">
+            <div class="field">
+              <textarea v-model="updatedContent" rows="2"></textarea>
+            </div>
+          </div>
+        </td>
+        <td v-if="triggerToUpdate !== value.name">
+          <button v-on:click="editTrigger(value)" class="ui icon button" title="Edit">
             <i class="setting icon"></i>
           </button>
           <button v-on:click="showDeleteModal(value.name)" class="ui icon button" title="Delete">
             <i class="trash icon"></i>
+          </button>
+        </td>
+        <td v-else>
+          <button v-on:click="updateTrigger(value.name)" class="ui icon button" title="Update">
+            <i class="checkmark icon"></i>
+          </button>
+          <button v-on:click="cancelEditTrigger()" class="ui icon button" title="Cancel">
+            <i class="remove icon"></i>
           </button>
         </td>
       </tr>
@@ -77,6 +92,8 @@
       return {
         'newName': '',
         'newContent': '',
+        'triggerToUpdate': '',
+        'updatedContent': '',
         'triggerToDeleteName': '',
         'loading': false
       }
@@ -136,6 +153,31 @@
           console.log(response.body)
           this.loading = false
         })
+      },
+      updateTrigger: function (name) {
+        this.loading = true
+        let updatedTrigger = {
+          'name': name,
+          'content': this.updatedContent
+        }
+        this.$http.put('/api/myapp/trigger', updatedTrigger).then(response => {
+          this.loading = false
+          Store.commit('triggers/setTrigger', updatedTrigger)
+          this.triggerToUpdate = ''
+          this.updatedContent = ''
+        }, response => {
+          // error callback
+          console.log(response.body)
+          this.loading = false
+        })
+      },
+      editTrigger: function (trigger) {
+        this.triggerToUpdate = trigger.name
+        this.updatedContent = trigger.content
+      },
+      cancelEditTrigger: function () {
+        this.triggerToUpdate = ''
+        this.updatedContent = ''
       },
       compare: function (a, b) {
         if (a.name < b.name) {
