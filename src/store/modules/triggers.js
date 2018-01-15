@@ -10,7 +10,7 @@
 // }
 
 const state = {
-  'triggers': {}
+  'triggers': []
 }
 
 const getters = {
@@ -32,8 +32,13 @@ const mutations = {
   },
   addTrigger (state, value) {
     if (value.name) {
-      state.triggers[value.name] = value
+      state.triggers.push(value)
     }
+  },
+  removeTrigger (state, value) {
+    state.triggers = state.triggers.filter(function (el) {
+      return el.name !== value
+    })
   }
 }
 

@@ -169,7 +169,6 @@
           }
 
           this.$http.put('/api/myapp/situation', newSituation).then(response => {
-            console.log(response.body)
             Store.commit('situations/addSituation', newSituation)
             this.loading = false
             Router.push({path: '/situations'})
