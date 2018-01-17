@@ -51,44 +51,6 @@
           </div>
         </div>
       </div>
-
-      <h4 class="ui horizontal divider header">
-        <i class="pointing right chart icon"></i>
-        Triggers
-      </h4>
-      <div class="field">
-        <label>Content</label>
-        <textarea v-model="triggerFormContent" rows="2"></textarea>
-      </div>
-      <div class="field">
-        <label>Name</label>
-        <div class="fields">
-          <div class="fourteen wide field">
-            <input v-model='triggerFormName' type='text'>
-          </div>
-          <div class="two wide field">
-            <button v-on:click='addTrigger()' v-bind:class="{ disabled: triggerFormContent === '' || triggerFormName === '', loading: loading }" class='ui primary labeled icon button'>
-              <i class='add icon'></i>
-              Add
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="ui cards">
-      <div v-for="(value, key) in selectedTriggers" class="ui card">
-        <div class="content">
-          <div class="header">{{ value.name }}</div>
-          <div class="description">
-            {{ truncateString(value.content) }}
-          </div>
-        </div>
-        <div class="ui bottom attached fluid buttons">
-          <div v-on:click="removeTrigger(getPositionInArrayTriggers(key))" class="ui icon button">
-            <i class="remove icon"></i>
-          </div>
-        </div>
-      </div>
     </div>
     <div class="situations-create-buttons">
       <router-link to='/situations/'>
@@ -116,9 +78,6 @@
         'nameValue': '',
         'actionsValue': [],
         'actionForm': '',
-        'triggersValue': [],
-        'triggerFormName': '',
-        'triggerFormContent': '',
         'loading': false
       }
     },
@@ -132,9 +91,6 @@
           }
         }
         return names
-      },
-      triggers: function () {
-        return Store.getters['triggers/getTriggers']
       },
       selectedActions: function () {
         return Store.getters['actions/getMultipleActions'](this.actionsValue)
@@ -204,37 +160,6 @@
           let temp = this.actionsValue[position + 1]
           this.$set(this.actionsValue, position + 1, this.actionsValue[position])
           this.$set(this.actionsValue, position, temp)
-        }
-      },
-      addTrigger: function () {
-        let newTrigger = {
-          'name': this.triggerFormName,
-          'content': this.triggerFormContent
-        }
-        this.loading = true
-        this.$http.put('/api/myapp/trigger', newTrigger).then(response => {
-          this.loading = false
-          Store.commit('triggers/addTrigger', newTrigger)
-          this.triggersValue.push(this.triggerFormName)
-          this.triggerFormName = ''
-          this.triggerFormContent = ''
-        }, response => {
-          // error callback
-          console.log(response.body)
-          this.loading = false
-        })
-      },
-      removeTrigger: function (position) {
-        this.triggersValue.splice(position, 1)
-      },
-      getPositionInArrayTriggers: function (key) {
-        return this.triggersValue.indexOf(key)
-      },
-      truncateString: function (str) {
-        if (str.length > 110) {
-          return str.substring(0, 110) + '…'
-        } else {
-          return str
         }
       }
     }

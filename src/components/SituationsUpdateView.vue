@@ -47,10 +47,6 @@
         </div>
       </div>
     </div>
-    <h4 class="ui horizontal divider header">
-      <i class="pointing right chart icon"></i>
-      Rules
-    </h4>
 
 
     <div class="situations-update-buttons">
