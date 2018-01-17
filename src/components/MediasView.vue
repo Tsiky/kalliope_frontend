@@ -1,7 +1,7 @@
 <template>
   <div class="medias-view">
-    <h1 class="ui header">Medias</h1>
-
+    <!-- Sub-route -->
+    <router-view></router-view>
   </div>
 </template>
 

@@ -3,6 +3,8 @@ import Router from 'vue-router'
 import HomeView from '@/components/HomeView'
 import TriggersView from '@/components/TriggersView'
 import MediasView from '@/components/MediasView'
+import MediasListView from '@/components/MediasListView'
+import MediasCreateView from '@/components/MediasCreateView'
 import ChannelsView from '@/components/ChannelsView'
 import ActionsView from '@/components/ActionsView'
 import ActionsCreateView from '@/components/ActionsCreateView'
@@ -33,7 +35,16 @@ export default new Router({
     {
       path: '/medias',
       name: 'MediasView',
-      component: MediasView
+      component: MediasView,
+      children: [{
+        path: '',
+        name: 'MediasListView',
+        component: MediasListView
+      }, {
+        path: 'create',
+        name: 'MediasCreateView',
+        component: MediasCreateView
+      }]
     },
     {
       path: '/channels',
