@@ -17,6 +17,9 @@
         <router-link class="item" to="/triggers">
           Triggers
         </router-link>
+        <router-link class="item" to="/users">
+          Users
+        </router-link>
         <router-link class="item" to="/channels">
           Channels
         </router-link>

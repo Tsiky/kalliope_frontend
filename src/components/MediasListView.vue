@@ -41,7 +41,6 @@
       this.$http.get('/api/myapp/v1/customers/' + Consts.KALLIOPE_USER + '/channels/' + Consts.CHANNEL_ID + '/medias').then(response => {
         if (response.body) {
           this.medias = response.body.fields
-          console.log(this.medias)
         }
       }, response => {
         // error callback

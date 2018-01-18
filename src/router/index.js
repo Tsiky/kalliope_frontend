@@ -17,6 +17,7 @@ import SituationsCreateView from '@/components/SituationsCreateView'
 import SituationsDetailsView from '@/components/SituationsDetailsView'
 import SituationsUpdateView from '@/components/SituationsUpdateView'
 import SituationsListView from '@/components/SituationsListView'
+import UsersListView from '@/components/UsersListView'
 import ErrorRouteView from '@/components/ErrorRouteView'
 
 Vue.use(Router)
@@ -101,6 +102,11 @@ export default new Router({
         name: 'SituationsUpdateView',
         component: SituationsUpdateView
       }]
+    },
+    {
+      path: '/users',
+      name: 'UsersListView',
+      component: UsersListView
     },
     {
       path: '/404',

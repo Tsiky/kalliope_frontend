@@ -49,7 +49,6 @@
     },
     created: function () {
       this.$http.get('/api/myapp/v1/customers/' + this.selectedUser + '/channels/').then(response => {
-        console.log(response.body)
         Store.commit('channels/setChannels', response.body.fields)
       }, response => {
         // error callback
