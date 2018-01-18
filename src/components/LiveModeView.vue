@@ -42,7 +42,6 @@
           data = { 'code': 0 }
         }
         this.$http.put('/api/myapp/ctl/live?user=' + this.selectedUser, data).then(response => {
-          console.log(response.body)
           Store.commit('liveMode/setLiveMode', !this.liveMode)
           this.liveModeLoading = false
         }, response => {

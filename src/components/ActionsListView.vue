@@ -66,8 +66,7 @@
     name: 'ActionsListView',
     data () {
       return {
-        'actionToDeleteName': '',
-        'actionToDeleteIndex': null
+        'actionToDeleteName': ''
       }
     },
     computed: {
@@ -96,21 +95,20 @@
     },
     methods: {
       showDeleteModal: function (index) {
+        console.log('showDeleteModal')
         this.actionToDeleteName = this.actions[index].name
-        this.actionToDeleteIndex = index
         $('.actions-delete-modal').modal('show')
       },
       removeAction: function () {
-        if (this.actionToDeleteIndex !== null) {
-          this.$http.delete('/api/myapp/action', { 'name': this.actionToDeleteName }).then(response => {
-            console.log(response.body)
-            Store.commit('actions/removeAction', this.actionToDeleteIndex)
+        if (this.actionToDeleteName !== null) {
+          this.$http.delete('/api/myapp/action', {params: { 'name': this.actionToDeleteName }}).then(response => {
+            Store.commit('actions/removeAction', this.actionToDeleteName)
+            this.actionToDeleteName = ''
           }, response => {
             // error callback
             console.log(response.body)
           })
         }
-        this.actionToDeleteIndex = null
       },
       testAction: function (index) {
         this.$http.post('/api/myapp/action?user=' + this.selectedUser, { 'name': this.actions[index].name }).then(response => {

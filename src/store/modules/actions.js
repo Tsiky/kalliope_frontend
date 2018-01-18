@@ -51,8 +51,8 @@ const mutations = {
       state.actions[value.name] = value
     }
   },
-  removeAction (state, index) {
-    state.actions.splice(index, 1)
+  removeAction (state, value) {
+    delete state.actions[value]
   }
 }
 

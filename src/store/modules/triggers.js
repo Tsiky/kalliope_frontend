@@ -10,7 +10,7 @@
 // }
 
 const state = {
-  'triggers': []
+  'triggers': {}
 }
 
 const getters = {
@@ -31,19 +31,15 @@ const mutations = {
     state.triggers = value
   },
   setTrigger (state, value) {
-    let index = state.triggers.findIndex(trigger => trigger.name === value.name)
-    state.triggers.splice(index, 1) // Remove old and add new to update change in vue
-    state.triggers.push(value)
+    state.triggers[value.name] = value
   },
   addTrigger (state, value) {
     if (value.name) {
-      state.triggers.push(value)
+      state.triggers[value.name] = value
     }
   },
   removeTrigger (state, value) {
-    state.triggers = state.triggers.filter(function (el) {
-      return el.name !== value
-    })
+    delete state.triggers[value]
   }
 }
 

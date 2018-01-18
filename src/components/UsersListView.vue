@@ -4,7 +4,7 @@
     <table class="ui padded table">
       <thead><tr>
         <th>Name</th>
-        <th></th>
+        <th>Selection</th>
       </tr></thead>
       <tbody>
       <tr v-for="user in users">

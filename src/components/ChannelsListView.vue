@@ -5,7 +5,7 @@
       <thead><tr>
         <th>Name</th>
         <th>Description</th>
-        <th></th>
+        <th>Selection</th>
       </tr></thead>
       <tbody>
       <tr v-if="channels.length === 0">

@@ -1,7 +1,6 @@
 <template>
   <div class="triggers-view">
     <h1 class="ui header">Triggers</h1>
-
     <table class="ui padded table">
       <thead><tr>
         <th>Name</th>
@@ -9,7 +8,7 @@
         <th></th>
       </tr></thead>
       <tbody>
-      <tr v-if="triggers.length === 0">
+      <tr v-if="Object.keys(triggers).length === 0 && triggers.constructor === Object">
         <td>No trigger registered</td>
       </tr>
       <tr v-for="(value, key) in triggers">
@@ -103,12 +102,13 @@
     },
     computed: {
       triggers: function () {
-        let triggersSorted = []
-        if (Store.getters['triggers/getTriggers'] !== []) {
-          triggersSorted = Store.getters['triggers/getTriggers'].map((b, idx) => Object.assign({ index: idx }, b)) // clone vuex array
-          triggersSorted.sort(this.compare)
-        }
-        return triggersSorted
+        // let triggersSorted = []
+        // if (Store.getters['triggers/getTriggers'] !== []) {
+        //   triggersSorted = Store.getters['triggers/getTriggers'].map((b, idx) => Object.assign({ index: idx }, b)) // clone vuex array
+        //   triggersSorted.sort(this.compare)
+        // }
+        // return triggersSorted
+        return Store.getters['triggers/getTriggers']
       },
       canAddTrigger: function () {
         return this.newName !== '' && this.newContent !== ''
@@ -120,11 +120,7 @@
     created: function () {
       // Get actions from API
       this.$http.get('/api/myapp/trigger?user=' + this.selectedUser).then(response => {
-        if (response.body.length) {
-          Store.commit('triggers/setTriggers', response.body)
-        } else {
-          Store.commit('triggers/setTriggers', [])
-        }
+        Store.commit('triggers/setTriggers', response.body)
       }, response => {
         // error callback
         console.log(response.body)
