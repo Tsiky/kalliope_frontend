@@ -23,8 +23,8 @@ const mutations = {
   addSituation (state, value) {
     state.situations[value.name] = value
   },
-  removeSituation (state, index) {
-    state.situations.splice(index, 1)
+  removeSituation (state, value) {
+    delete state.situations[value]
   }
 }
 

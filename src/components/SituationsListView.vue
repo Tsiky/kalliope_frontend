@@ -69,13 +69,15 @@
     name: 'SituationsListView',
     data () {
       return {
-        'situationToDeleteName': '',
-        'situationToDeleteIndex': null
+        'situationToDeleteName': ''
       }
     },
     computed: {
       situations: function () {
         return Store.getters['situations/getSituations']
+      },
+      selectedUser: function () {
+        return Store.getters['users/getSelectedUser']
       }
     },
     created: function () {
@@ -100,20 +102,17 @@
       },
       showDeleteModal: function (index) {
         this.situationToDeleteName = this.situations[index].name
-        this.situationToDeleteIndex = index
         $('.situations-delete-modal').modal('show')
       },
       removeSituation: function () {
-        if (this.situationToDeleteIndex !== null) {
-          this.$http.post('/api/myapp/situation', { 'name': this.situationToDeleteName }).then(response => {
-            console.log(response.body)
-            Store.commit('actions/removeAction', this.situationToDeleteIndex)
+        if (this.situationToDeleteName !== null) {
+          this.$http.delete('/api/myapp/situation', {params: { 'name': this.situationToDeleteName }}).then(response => {
+            Store.commit('situations/removeSituation', this.situationToDeleteName)
           }, response => {
             // error callback
             console.log(response.body)
           })
         }
-        this.situationToDeleteIndex = null
       }
     }
   }
