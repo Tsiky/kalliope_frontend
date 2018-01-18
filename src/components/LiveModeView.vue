@@ -19,11 +19,14 @@
     computed: {
       liveMode: function () {
         return Store.getters['liveMode/getLiveMode']
+      },
+      selectedUser: function () {
+        return Store.getters['users/getSelectedUser']
       }
     },
     created: function () {
       // Init live mode off when launching app
-      this.$http.put('/api/myapp/ctl/live', { 'code': 0 }).then(response => {
+      this.$http.put('/api/myapp/ctl/live?user=' + this.selectedUser, { 'code': 0 }).then(response => {
         Store.commit('liveMode/setLiveMode', false)
         this.liveModeLoading = false
       }, response => {
@@ -38,7 +41,7 @@
         if (this.liveMode) {
           data = { 'code': 0 }
         }
-        this.$http.put('/api/myapp/ctl/live', data).then(response => {
+        this.$http.put('/api/myapp/ctl/live?user=' + this.selectedUser, data).then(response => {
           console.log(response.body)
           Store.commit('liveMode/setLiveMode', !this.liveMode)
           this.liveModeLoading = false

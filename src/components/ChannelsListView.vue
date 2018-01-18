@@ -33,7 +33,6 @@
 </template>
 
 <script>
-  import Consts from '../store/consts/Consts'
   import Store from '../store/StoreVuex.vue'
   export default {
     name: 'ChannelsListView',
@@ -43,10 +42,13 @@
       },
       selectedChannel: function () {
         return Store.getters['channels/getSelectedChannel']
+      },
+      selectedUser: function () {
+        return Store.getters['users/getSelectedUser']
       }
     },
     created: function () {
-      this.$http.get('/api/myapp/v1/customers/' + Consts.KALLIOPE_USER + '/channels/').then(response => {
+      this.$http.get('/api/myapp/v1/customers/' + this.selectedUser + '/channels/').then(response => {
         console.log(response.body)
         Store.commit('channels/setChannels', response.body.fields)
       }, response => {
@@ -60,7 +62,7 @@
           'id': channel.id,
           'name': channel.name,
           'messagesScopeUrl': channel.messagesScopeUrl,
-          'user': Consts.KALLIOPE_USER
+          'user': this.selectedUser
         }
         this.$http.post('/api/myapp/channel', channelData).then(response => {
           Store.commit('channels/setSelectedChannel', channel)

@@ -37,8 +37,8 @@
 </template>
 
 <script>
-  import Consts from '../store/consts/Consts'
   import Router from '../router/index'
+  import Store from '../store/StoreVuex.vue'
   export default {
     name: 'ChannelsCreateView',
     data () {
@@ -48,6 +48,11 @@
         'iconUrl': '',
         'documentationUrl': '',
         'loading': false
+      }
+    },
+    computed: {
+      selectedUser: function () {
+        return Store.getters['users/getSelectedUser']
       }
     },
     methods: {
@@ -60,7 +65,7 @@
           'documentationUrl': this.documentationUrl,
           'distance': 0
         }
-        this.$http.post('/api/myapp/v1/customers/' + Consts.KALLIOPE_USER + '/channels/', newChannel).then(response => {
+        this.$http.post('/api/myapp/v1/customers/' + this.selectedUser + '/channels/', newChannel).then(response => {
           this.loading = false
           Router.push({ path: '/channels' })
         }, response => {

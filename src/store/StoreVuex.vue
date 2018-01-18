@@ -8,6 +8,7 @@
   import triggers from './modules/triggers'
   import liveMode from './modules/liveMode'
   import channels from './modules/channels'
+  import users from './modules/users'
 
   Vue.use(Vuex)
   export default new Vuex.Store({
@@ -17,7 +18,8 @@
       actions,
       triggers,
       liveMode,
-      channels
+      channels,
+      users
     },
     plugins: [
       // Save state in cookie

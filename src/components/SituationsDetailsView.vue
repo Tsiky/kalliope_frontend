@@ -52,6 +52,9 @@
       },
       liveMode: function () {
         return Store.getters['liveMode/getLiveMode']
+      },
+      selectedUser: function () {
+        return Store.getters['users/getSelectedUser']
       }
     },
     methods: {
@@ -64,8 +67,7 @@
         return this.situation.actions.indexOf(key)
       },
       launchAction: function (index) {
-        this.$http.post('/api/myapp/action', { 'name': this.actionsOfSituation[index].name }).then(response => {
-          console.log(response.body)
+        this.$http.post('/api/myapp/action?user=' + this.selectedUser, { 'name': this.actionsOfSituation[index].name }).then(response => {
         }, response => {
           // error callback
           console.log(response.body)

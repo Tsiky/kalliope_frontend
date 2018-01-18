@@ -100,21 +100,27 @@
     },
     computed: {
       triggers: function () {
-        const triggersSorted = Store.getters['triggers/getTriggers'].map((b, idx) => Object.assign({ index: idx }, b)) // clone vuex array
-        triggersSorted.sort(this.compare)
+        let triggersSorted = []
+        if (Store.getters['triggers/getTriggers'] !== []) {
+          triggersSorted = Store.getters['triggers/getTriggers'].map((b, idx) => Object.assign({ index: idx }, b)) // clone vuex array
+          triggersSorted.sort(this.compare)
+        }
         return triggersSorted
       },
       canAddTrigger: function () {
         return this.newName !== '' && this.newContent !== ''
+      },
+      selectedUser: function () {
+        return Store.getters['users/getSelectedUser']
       }
     },
     created: function () {
       // Get actions from API
-      this.$http.get('/api/myapp/trigger').then(response => {
-        if (response.body) {
+      this.$http.get('/api/myapp/trigger?user=' + this.selectedUser).then(response => {
+        if (response.body.length) {
           Store.commit('triggers/setTriggers', response.body)
         } else {
-          Store.commit('triggers/setActions', [])
+          Store.commit('triggers/setTriggers', [])
         }
       }, response => {
         // error callback
@@ -133,7 +139,7 @@
             'name': this.newName,
             'content': this.newContent
           }
-          this.$http.put('/api/myapp/trigger', newTrigger).then(response => {
+          this.$http.put('/api/myapp/trigger?user=' + this.selectedUser, newTrigger).then(response => {
             this.loading = false
             Store.commit('triggers/addTrigger', newTrigger)
             this.newName = ''
@@ -146,7 +152,7 @@
         }
       },
       removeTrigger: function () {
-        this.$http.delete('/api/myapp/trigger', {params: { name: this.triggerToDeleteName }}).then(response => {
+        this.$http.delete('/api/myapp/trigger?user=' + this.selectedUser, {params: { name: this.triggerToDeleteName }}).then(response => {
           Store.commit('triggers/removeTrigger', this.triggerToDeleteName)
         }, response => {
           // error callback
@@ -160,7 +166,7 @@
           'name': name,
           'content': this.updatedContent
         }
-        this.$http.put('/api/myapp/trigger', updatedTrigger).then(response => {
+        this.$http.put('/api/myapp/trigger?user=' + this.selectedUser, updatedTrigger).then(response => {
           this.loading = false
           Store.commit('triggers/setTrigger', updatedTrigger)
           this.triggerToUpdate = ''

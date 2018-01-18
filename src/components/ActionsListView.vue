@@ -76,6 +76,9 @@
       },
       liveMode: function () {
         return Store.getters['liveMode/getLiveMode']
+      },
+      selectedUser: function () {
+        return Store.getters['users/getSelectedUser']
       }
     },
     created: function () {
@@ -110,8 +113,7 @@
         this.actionToDeleteIndex = null
       },
       testAction: function (index) {
-        this.$http.post('/api/myapp/action', { 'name': this.actions[index].name }).then(response => {
-          console.log(response.body)
+        this.$http.post('/api/myapp/action?user=' + this.selectedUser, { 'name': this.actions[index].name }).then(response => {
         }, response => {
           // error callback
           console.log(response.body)
