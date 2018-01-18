@@ -6,6 +6,8 @@ import MediasView from '@/components/MediasView'
 import MediasListView from '@/components/MediasListView'
 import MediasCreateView from '@/components/MediasCreateView'
 import ChannelsView from '@/components/ChannelsView'
+import ChannelsListView from '@/components/ChannelsListView'
+import ChannelsCreateView from '@/components/ChannelsCreateView'
 import ActionsView from '@/components/ActionsView'
 import ActionsCreateView from '@/components/ActionsCreateView'
 import ActionsUpdateView from '@/components/ActionsUpdateView'
@@ -49,7 +51,16 @@ export default new Router({
     {
       path: '/channels',
       name: 'ChannelsView',
-      component: ChannelsView
+      component: ChannelsView,
+      children: [{
+        path: '',
+        name: 'ChannelsListView',
+        component: ChannelsListView
+      }, {
+        path: 'create',
+        name: 'ChannelsCreateView',
+        component: ChannelsCreateView
+      }]
     },
     {
       path: '/actions',

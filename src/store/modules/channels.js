@@ -1,12 +1,16 @@
 // Store for channels
 
 const state = {
-  'channels': {}
+  'channels': [],
+  'selectedChannel': {}
 }
 
 const getters = {
   getChannels: state => {
     return state.channels
+  },
+  getSelectedChannel: state => {
+    return state.selectedChannel
   }
 }
 
@@ -14,11 +18,8 @@ const mutations = {
   setChannels (state, value) {
     state.channels = value
   },
-  addSituation (state, value) {
-    state.channels.push(value)
-  },
-  removeSituation (state, index) {
-    state.channels.splice(index, 1)
+  setSelectedChannel (state, value) {
+    state.selectedChannel = value
   }
 }
 
