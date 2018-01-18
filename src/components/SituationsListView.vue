@@ -39,37 +39,34 @@
       </div>
     </div>
     <!-- Delete modal -->
-    <div class="ui basic modal situations-delete-modal">
-      <div class="ui icon header">
-        <i class="trash icon"></i>
-        Delete action
-      </div>
-      <div class="content modal-content">
-        <p>Are you sure you want to permanently remove the situation "{{ situationToDeleteName }}" ?</p>
-      </div>
-      <div class="actions center">
-        <div class="ui red cancel inverted button">
-          <i class="remove icon"></i>
+    <modal v-model="showModal">
+      <p slot="header">Delete situation</p>
+      <p slot="content">Are you sure you want to permanently remove the situation "{{ situationToDeleteName }}" ?</p>
+      <template slot="actions">
+        <div class="ui red cancel button" @click="showModal=false">
           No
         </div>
-        <div v-on:click="removeSituation()" class="ui green ok inverted button">
-          <i class="checkmark icon"></i>
+        <div class="ui green ok right button" @click="removeSituation()">
           Yes
         </div>
-      </div>
-    </div>
+      </template>
+    </modal>
   </div>
 </template>
 
 <script>
-  import $ from 'jquery'
   import Store from '../store/StoreVuex.vue'
   import Router from '../router/index'
+  import modal from 'vue-semantic-modal'
   export default {
     name: 'SituationsListView',
+    components: {
+      modal
+    },
     data () {
       return {
-        'situationToDeleteName': ''
+        'situationToDeleteName': '',
+        'showModal': false
       }
     },
     computed: {
@@ -102,12 +99,13 @@
       },
       showDeleteModal: function (index) {
         this.situationToDeleteName = this.situations[index].name
-        $('.situations-delete-modal').modal('show')
+        this.showModal = true
       },
       removeSituation: function () {
         if (this.situationToDeleteName !== null) {
           this.$http.delete('/api/myapp/situation', {params: { 'name': this.situationToDeleteName }}).then(response => {
             Store.commit('situations/removeSituation', this.situationToDeleteName)
+            this.showModal = false
           }, response => {
             // error callback
             console.log(response.body)

@@ -36,37 +36,34 @@
       </div>
     </div>
     <!-- Delete modal -->
-    <div class="ui basic modal actions-delete-modal">
-      <div class="ui icon header">
-        <i class="trash icon"></i>
-        Delete action
-      </div>
-      <div class="content modal-content">
-        <p>Are you sure you want to permanently remove the action "{{ actionToDeleteName }}" ?</p>
-      </div>
-      <div class="actions center">
-        <div class="ui red cancel inverted button">
-          <i class="remove icon"></i>
+    <modal v-model="showModal">
+      <p slot="header">Delete action</p>
+      <p slot="content">Are you sure you want to permanently remove the action "{{ actionToDeleteName }}" ?</p>
+      <template slot="actions">
+        <div class="ui red cancel button" @click="showModal=false">
           No
         </div>
-        <div v-on:click="removeAction()" class="ui green ok inverted button">
-          <i class="checkmark icon"></i>
+        <div class="ui green ok right button" @click="removeAction()">
           Yes
         </div>
-      </div>
-    </div>
+      </template>
+    </modal>
   </div>
 </template>
 
 <script>
-  import $ from 'jquery'
   import Store from '../store/StoreVuex.vue'
   import Router from '../router/index'
+  import modal from 'vue-semantic-modal'
   export default {
     name: 'ActionsListView',
+    components: {
+      modal
+    },
     data () {
       return {
-        'actionToDeleteName': ''
+        'actionToDeleteName': '',
+        'showModal': false
       }
     },
     computed: {
@@ -95,15 +92,14 @@
     },
     methods: {
       showDeleteModal: function (index) {
-        console.log('showDeleteModal')
         this.actionToDeleteName = this.actions[index].name
-        $('.actions-delete-modal').modal('show')
+        this.showModal = true
       },
       removeAction: function () {
         if (this.actionToDeleteName !== null) {
           this.$http.delete('/api/myapp/action', {params: { 'name': this.actionToDeleteName }}).then(response => {
             Store.commit('actions/removeAction', this.actionToDeleteName)
-            this.actionToDeleteName = ''
+            this.showModal = false
           }, response => {
             // error callback
             console.log(response.body)

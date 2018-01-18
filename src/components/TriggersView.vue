@@ -63,33 +63,29 @@
     </div>
 
     <!-- Delete modal -->
-    <div class="ui basic modal triggers-delete-modal">
-      <div class="ui icon header">
-        <i class="trash icon"></i>
-        Delete trigger
-      </div>
-      <div class="content modal-content">
-        <p>Are you sure you want to permanently remove the trigger "{{ triggerToDeleteName }}" ?</p>
-      </div>
-      <div class="actions center">
-        <div class="ui red cancel inverted button">
-          <i class="remove icon"></i>
+    <modal v-model="showModal">
+      <p slot="header">Delete trigger</p>
+      <p slot="content">Are you sure you want to permanently remove the trigger "{{ triggerToDeleteName }}" ?</p>
+      <template slot="actions">
+        <div class="ui red cancel button" @click="showModal=false">
           No
         </div>
-        <div v-on:click="removeTrigger()" class="ui green ok inverted button">
-          <i class="checkmark icon"></i>
+        <div class="ui green ok right button" @click="removeTrigger()">
           Yes
         </div>
-      </div>
-    </div>
+      </template>
+    </modal>
   </div>
 </template>
 
 <script>
-  import $ from 'jquery'
   import Store from '../store/StoreVuex.vue'
+  import modal from 'vue-semantic-modal'
   export default {
     name: 'TriggersView',
+    components: {
+      modal
+    },
     data () {
       return {
         'newName': '',
@@ -97,17 +93,12 @@
         'triggerToUpdate': '',
         'updatedContent': '',
         'triggerToDeleteName': '',
-        'loading': false
+        'loading': false,
+        'showModal': false
       }
     },
     computed: {
       triggers: function () {
-        // let triggersSorted = []
-        // if (Store.getters['triggers/getTriggers'] !== []) {
-        //   triggersSorted = Store.getters['triggers/getTriggers'].map((b, idx) => Object.assign({ index: idx }, b)) // clone vuex array
-        //   triggersSorted.sort(this.compare)
-        // }
-        // return triggersSorted
         return Store.getters['triggers/getTriggers']
       },
       canAddTrigger: function () {
@@ -129,7 +120,7 @@
     methods: {
       showDeleteModal: function (name) {
         this.triggerToDeleteName = name
-        $('.triggers-delete-modal').modal('show')
+        this.showModal = true
       },
       addTrigger: function () {
         this.loading = true
@@ -153,6 +144,7 @@
       removeTrigger: function () {
         this.$http.delete('/api/myapp/trigger?user=' + this.selectedUser, {params: { name: this.triggerToDeleteName }}).then(response => {
           Store.commit('triggers/removeTrigger', this.triggerToDeleteName)
+          this.showModal = false
         }, response => {
           // error callback
           console.log(response.body)
