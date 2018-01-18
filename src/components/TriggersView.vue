@@ -9,6 +9,9 @@
         <th></th>
       </tr></thead>
       <tbody>
+      <tr v-if="triggers.length === 0">
+        <td>No trigger registered</td>
+      </tr>
       <tr v-for="(value, key) in triggers">
         <td>{{ value.name }}</td>
         <td v-if="triggerToUpdate !== value.name">{{ value.content }}</td>

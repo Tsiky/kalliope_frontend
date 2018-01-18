@@ -8,6 +8,9 @@
         <th></th>
       </tr></thead>
       <tbody>
+      <tr v-if="channels.length === 0">
+        <td>No channel registered</td>
+      </tr>
       <tr v-for="channel in channels">
         <td>{{ channel.name }}</td>
         <td>{{ channel.description }}</td>

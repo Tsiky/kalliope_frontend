@@ -49,12 +49,20 @@
 
 <script>
   import $ from 'jquery'
-  import Consts from '../store/consts/Consts'
+  import Store from '../store/StoreVuex.vue'
   export default {
     name: 'MediasCreateView',
     data () {
       return {
         'deviceFilter': ''
+      }
+    },
+    computed: {
+      selectedChannel: function () {
+        return Store.getters['channels/getSelectedChannel']
+      },
+      selectedUser: function () {
+        return Store.getters['users/getSelectedUser']
       }
     },
     mounted: function () {
@@ -67,7 +75,7 @@
         let data = new FormData()
         data.append('file', files[0])
         data.append('device_filter', this.deviceFilter)
-        this.$http.post('/api/myapp/v1/customers/' + Consts.KALLIOPE_USER + '/channels/' + Consts.CHANNEL_ID + '/medias', data).then(response => {
+        this.$http.post('/api/myapp/v1/customers/' + this.selectUser + '/channels/' + this.selectChannel.id + '/medias', data).then(response => {
           console.log(response.body)
         }, response => {
           console.log(response.body)
