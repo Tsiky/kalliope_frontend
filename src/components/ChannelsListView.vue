@@ -15,7 +15,7 @@
         <td>{{ channel.name }}</td>
         <td>{{ channel.description }}</td>
         <td>
-          <button v-if="channel.id === selectedChannel.id" class="ui positive icon button" title="Select">
+          <button v-if="channel.id === selectedChannel.id" v-on:click="selectChannel(channel)" class="ui positive icon button" title="Select">
             <i class="selected radio icon"></i>
           </button>
           <button v-else v-on:click="selectChannel(channel)" class="ui icon button" title="Select">

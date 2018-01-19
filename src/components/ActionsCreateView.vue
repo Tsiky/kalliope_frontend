@@ -242,7 +242,13 @@
               break
           }
           if (this.filtersValue !== '') {
-            newAction['filters'] = this.filtersValue
+            if (this.isJsonString(this.filtersValue)) {
+              newAction['filters'] = JSON.parse(this.filtersValue)
+            } else {
+              alert('Invalid filters')
+              this.loading = false
+              return
+            }
           }
 
           this.$http.put('/api/myapp/action', newAction).then(response => {
@@ -256,6 +262,14 @@
             this.loading = false
           })
         }
+      },
+      isJsonString: function (str) {
+        try {
+          JSON.parse(str)
+        } catch (e) {
+          return false
+        }
+        return true
       }
     }
   }
