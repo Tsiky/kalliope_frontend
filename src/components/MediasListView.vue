@@ -34,17 +34,17 @@
   import Store from '../store/StoreVuex.vue'
   export default {
     name: 'MediasListView',
+    data () {
+      return {
+        'medias': []
+      }
+    },
     computed: {
       selectedChannel: function () {
         return Store.getters['channels/getSelectedChannel']
       },
       selectedUser: function () {
         return Store.getters['users/getSelectedUser']
-      }
-    },
-    data () {
-      return {
-        'medias': []
       }
     },
     created: function () {

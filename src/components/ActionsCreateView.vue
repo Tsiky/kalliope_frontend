@@ -23,11 +23,46 @@
           </option>
         </select>
       </div>
-      <div v-if="typeKey === 0 && nameKey === 0">
+
+      <!-- multimedia - text -->
+      <div v-if="names[typeKey][nameKey] === 'text'">
         <div class="ui divider"></div>
         <div class='field'>
           <label>Text</label>
           <input v-model='textValue' type='text'>
+        </div>
+        <div class='field'>
+          <label>Background-color</label>
+          <input v-model='backgroundColorValue' type='text'>
+        </div>
+        <div class='field'>
+          <label>Vibration</label>
+          <input v-model='vibrationValue' type='number' step='0.1'>
+        </div>
+      </div>
+      <!-- multimedia - video & audio -->
+      <div v-else-if="names[typeKey][nameKey] === 'video' || names[typeKey][nameKey] === 'audio'">
+        <div class="ui divider"></div>
+        <div class='field'>
+          <label>Text</label>
+          <input v-model='textValue' type='text'>
+        </div>
+        <div class='field'>
+          <label>Vibration</label>
+          <input v-model='vibrationValue' type='number' step='0.1'>
+        </div>
+      </div>
+      <!-- multimedia - image -->
+      <div v-if="names[typeKey][nameKey] === 'image'">
+        <div class="ui divider"></div>
+        <div class='field'>
+          <label>File</label>
+          <!-- Does not exist when mounted so jquery css doesnt apply -->
+          <select v-model='fileValue' class='ui dropdown actions-create-dropdown'>
+            <option v-for='media in medias' :value='media.name'>
+              {{ media.name }}
+            </option>
+          </select>
         </div>
         <div class='field'>
           <label>Background-color</label>
@@ -67,6 +102,7 @@
         'textValue': '',
         'backgroundColorValue': '',
         'vibrationValue': '',
+        'fileValue': '',
         'typeKey': 0,
         'types': ['multimedia', 'quiz', 'color', 'hardware', 'webview', 'arduino', 'scene control', 'update'],
         'nameKey': 0,
@@ -79,8 +115,27 @@
           ['HIGH', 'LOW'],
           ['scene_activate', 'scene_sendkeystroke'],
           ['medias', 'gps']],
+        'medias': [],
         'loading': false
       }
+    },
+    computed: {
+      selectedChannel: function () {
+        return Store.getters['channels/getSelectedChannel']
+      },
+      selectedUser: function () {
+        return Store.getters['users/getSelectedUser']
+      }
+    },
+    created: function () {
+      this.$http.get('/api/myapp/v1/customers/' + this.selectedUser + '/channels/' + this.selectedChannel.id + '/medias').then(response => {
+        if (response.body) {
+          this.medias = response.body.fields
+        }
+      }, response => {
+        // error callback
+        console.log(response.body)
+      })
     },
     mounted: function () {
       $('.actions-create-dropdown').dropdown()
@@ -95,17 +150,50 @@
       addAction: function () {
         if (this.labelValue !== '') {
           this.loading = true
-          let newAction = {
-            'name': this.labelValue,
-            'module': this.types[this.typeKey],
-            'value': this.names[this.typeKey][this.nameKey],
-            'data': {
-              'file': this.textValue,
-              'vibration': this.vibrationValue !== '' ? this.vibrationValue : 0,
-              'background-color': this.backgroundColorValue
-            },
-            'aref': 'string',
-            'situation': 'FirstSituation'
+          let newAction = {}
+          switch (this.names[this.typeKey][this.nameKey]) {
+            case 'text':
+              newAction = {
+                'name': this.labelValue,
+                'module': this.types[this.typeKey],
+                'value': this.names[this.typeKey][this.nameKey],
+                'data': {
+                  'file': this.textValue,
+                  'vibration': this.vibrationValue !== '' ? this.vibrationValue : 0,
+                  'background-color': this.backgroundColorValue
+                },
+                'aref': 'string',
+                'situation': 'FirstSituation'
+              }
+              break
+            case 'image':
+              newAction = {
+                'name': this.labelValue,
+                'module': this.types[this.typeKey],
+                'value': this.names[this.typeKey][this.nameKey],
+                'data': {
+                  'file': this.fileValue,
+                  'vibration': this.vibrationValue !== '' ? this.vibrationValue : 0,
+                  'background-color': this.backgroundColorValue
+                },
+                'aref': 'string',
+                'situation': 'FirstSituation'
+              }
+              break
+            default:
+              newAction = {
+                'name': this.labelValue,
+                'module': this.types[this.typeKey],
+                'value': this.names[this.typeKey][this.nameKey],
+                'data': {
+                  'file': this.textValue,
+                  'vibration': this.vibrationValue !== '' ? this.vibrationValue : 0,
+                  'background-color': this.backgroundColorValue
+                },
+                'aref': 'string',
+                'situation': 'FirstSituation'
+              }
+              break
           }
 
           this.$http.put('/api/myapp/action', newAction).then(response => {
