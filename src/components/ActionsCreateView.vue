@@ -44,8 +44,13 @@
       <div v-else-if="names[typeKey][nameKey] === 'video' || names[typeKey][nameKey] === 'audio'">
         <div class="ui divider"></div>
         <div class='field'>
-          <label>Text</label>
-          <input v-model='textValue' type='text'>
+          <label>File</label>
+          <!-- Does not exist when mounted so jquery css doesnt apply -->
+          <select v-model='fileValue' class='ui dropdown actions-create-dropdown'>
+            <option v-for='media in medias' :value='media.name'>
+              {{ media.name }}
+            </option>
+          </select>
         </div>
         <div class='field'>
           <label>Vibration</label>
@@ -72,6 +77,28 @@
           <label>Vibration</label>
           <input v-model='vibrationValue' type='number' step='0.1'>
         </div>
+      </div>
+      <!-- color - color -->
+      <div v-if="names[typeKey][nameKey] === 'color'">
+        <div class="ui divider"></div>
+        <div class='field'>
+          <label>Color</label>
+          <input v-model='colorValue' type='text'>
+        </div>
+        <div class='field'>
+          <label>Seconds</label>
+          <input v-model='secondsValue' type='number' step='1'>
+        </div>
+        <div class='field'>
+          <label>Vibration</label>
+          <input v-model='vibrationValue' type='number' step='0.1'>
+        </div>
+      </div>
+
+      <div class="ui divider"></div>
+      <div class="field">
+        <label>Filters</label>
+        <textarea v-model="filtersValue" rows="2"></textarea>
       </div>
     </div>
 
@@ -103,6 +130,9 @@
         'backgroundColorValue': '',
         'vibrationValue': '',
         'fileValue': '',
+        'filtersValue': '',
+        'colorValue': '',
+        'secondsValue': '',
         'typeKey': 0,
         'types': ['multimedia', 'quiz', 'color', 'hardware', 'webview', 'arduino', 'scene control', 'update'],
         'nameKey': 0,
@@ -180,6 +210,22 @@
                 'situation': 'FirstSituation'
               }
               break
+            case 'color':
+              newAction = {
+                'name': this.labelValue,
+                'module': this.types[this.typeKey],
+                'value': this.names[this.typeKey][this.nameKey],
+                'data': {
+                  'color': [{
+                    'color': this.colorValue,
+                    'seconds': this.secondsValue
+                  }],
+                  'vibration': this.vibrationValue !== '' ? this.vibrationValue : 0
+                },
+                'aref': 'string',
+                'situation': 'FirstSituation'
+              }
+              break
             default:
               newAction = {
                 'name': this.labelValue,
@@ -194,6 +240,9 @@
                 'situation': 'FirstSituation'
               }
               break
+          }
+          if (this.filtersValue !== '') {
+            newAction['filters'] = this.filtersValue
           }
 
           this.$http.put('/api/myapp/action', newAction).then(response => {
