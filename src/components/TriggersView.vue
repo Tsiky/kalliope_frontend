@@ -137,6 +137,7 @@
           }, response => {
             // error callback
             console.log(response.body)
+            alert('Error')
             this.loading = false
           })
         }
@@ -148,6 +149,7 @@
         }, response => {
           // error callback
           console.log(response.body)
+          alert('Error')
           this.loading = false
         })
       },
@@ -165,6 +167,7 @@
         }, response => {
           // error callback
           console.log(response.body)
+          alert('Error')
           this.loading = false
         })
       },

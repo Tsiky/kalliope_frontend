@@ -71,6 +71,7 @@
         }, response => {
           // error callback
           console.log(response.body)
+          alert('Error')
         })
       }
     }

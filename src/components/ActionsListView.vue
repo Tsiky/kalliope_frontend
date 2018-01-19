@@ -103,6 +103,7 @@
           }, response => {
             // error callback
             console.log(response.body)
+            alert('Error')
           })
         }
       },
@@ -111,6 +112,7 @@
         }, response => {
           // error callback
           console.log(response.body)
+          alert('Error')
         })
       },
       goToUpdateView: function (key) {

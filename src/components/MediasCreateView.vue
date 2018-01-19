@@ -79,6 +79,7 @@
           console.log(response.body)
         }, response => {
           console.log(response.body)
+          alert('Error')
         })
       }
     }

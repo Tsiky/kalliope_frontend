@@ -71,6 +71,7 @@
         }, response => {
           this.loading = false
           console.log(response.body)
+          alert('Error')
         })
       }
     }

@@ -104,6 +104,7 @@
         }, response => {
           // error callback
           console.log(response.body)
+          alert('Error')
         })
       },
       removeChannel: function () {
@@ -113,6 +114,7 @@
         }, response => {
           // error callback
           console.log(response.body)
+          alert('Error')
         })
       }
     }

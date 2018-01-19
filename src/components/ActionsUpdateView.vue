@@ -73,13 +73,13 @@
           'background-color': this.backgroundColorValue
         }
         this.$http.put('/api/myapp/action', updatedAction).then(response => {
-          console.log(response.body)
           Store.commit('actions/setAction', updatedAction)
           this.loading = false
           Router.push({ path: '/actions' })
         }, response => {
           // error callback
           console.log(response.body)
+          alert('Error')
           this.loading = false
         })
       }
