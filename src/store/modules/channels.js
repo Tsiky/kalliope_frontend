@@ -20,6 +20,11 @@ const mutations = {
   },
   setSelectedChannel (state, value) {
     state.selectedChannel = value
+  },
+  removeChannel (state, id) {
+    state.channels = state.channels.filter(function (el) {
+      return el.id !== id
+    })
   }
 }
 
